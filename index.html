@@ -215,6 +215,11 @@ function renderCategories(){
   add('جميع المنتجات','all',{url:'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80'});
   cats.forEach(c=>add(c.name,c.name,c.image_url?{url:c.image_url}:categoryVisual(c.name)));
 }
+function setCategory(value){
+  activeCategory=String(value||'all');
+  renderCategories();
+  renderProducts();
+}
 function resetCategoryForm(){if(!$('categoryForm'))return;$('categoryForm').reset();$('editCategoryId').value='';$('saveCategory').textContent='إضافة القسم';}
 function editCategory(id){const c=categories.find(x=>String(x.id)===String(id));if(!c)return;$('editCategoryId').value=c.id;$('categoryName').value=c.name||'';$('categoryImageUrl').value=c.image_url||'';$('saveCategory').textContent='حفظ تعديلات القسم';$('categoryForm').scrollIntoView({behavior:'smooth',block:'center'});}
 function renderAdminCategories(){
@@ -245,7 +250,8 @@ async function deleteCategory(id){
 }
 function renderProducts(){
   const term=($('search').value||'').trim().toLocaleLowerCase();
-  const list=products.filter(p=>(activeCategory==='all'||String(p.category||'')===String(activeCategory))&&[p.name,p.description,p.category,p.company].some(v=>String(v||'').toLocaleLowerCase().includes(term)));
+  const normalizeCategory=value=>String(value||'').trim().replace(/\s+/g,' ').toLocaleLowerCase();
+  const list=products.filter(p=>(activeCategory==='all'||normalizeCategory(p.category)===normalizeCategory(activeCategory))&&[p.name,p.description,p.category,p.company].some(v=>String(v||'').toLocaleLowerCase().includes(term)));
   $('productCount').textContent=list.length+' منتج';
   if(!list.length){$('products').innerHTML='<div class="empty">لا توجد منتجات مطابقة حالياً.</div>';return;}
   $('products').innerHTML=list.map(p=>{
