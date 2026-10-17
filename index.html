@@ -21,7 +21,7 @@ main{max-width:1100px;margin:auto;padding:20px 16px 50px}
 .hero h2{font-size:27px;color:var(--dark);margin:0 0 9px}.hero p{line-height:1.9;margin:0 0 15px;color:#53655a}.hero-art{width:125px;height:125px;flex-shrink:0;border-radius:24px;background:#fff;display:grid;place-items:center;font-size:68px}
 .searchrow{display:flex;gap:10px;margin:20px 0}.searchrow input{flex:1;min-width:0}input,textarea,select{border:1px solid #d8e2da;border-radius:11px;padding:12px;background:#fff;width:100%;outline-color:var(--green)}
 .sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px}.sectionhead h3{margin:0;color:var(--dark)}
-.categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;padding:2px 0 8px}.cat{position:relative;min-height:130px;overflow:hidden;white-space:normal;text-align:right;background:#e6f3e9;color:#fff;border:2px solid transparent;padding:0;border-radius:17px;box-shadow:0 5px 18px #1231;isolation:isolate}.cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .25s}.cat:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0d2c1fe8,transparent 82%);z-index:-1}.cat span{position:absolute;right:12px;bottom:12px;left:10px;font-weight:bold;font-size:14px;line-height:1.5}.cat.active{border-color:#39b66e;box-shadow:0 0 0 2px #39b66e45}.cat:hover img{transform:scale(1.05)}
+.categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;padding:2px 0 8px}.cat{position:relative;z-index:1;min-height:130px;overflow:hidden;white-space:normal;text-align:right;background:#e6f3e9;color:#fff;border:2px solid transparent;padding:0;border-radius:17px;box-shadow:0 5px 18px #1231;isolation:isolate;pointer-events:auto;touch-action:manipulation;cursor:pointer}.cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .25s;pointer-events:none}.cat:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0d2c1fe8,transparent 82%);z-index:-1;pointer-events:none}.cat span{position:absolute;right:12px;bottom:12px;left:10px;font-weight:bold;font-size:14px;line-height:1.5;pointer-events:none}#products{scroll-margin-top:145px}.cat.active{border-color:#39b66e;box-shadow:0 0 0 2px #39b66e45}.cat:hover img{transform:scale(1.05)}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .pic{height:145px;background:#fff;border:1px solid #f0f2f0;border-radius:12px;display:grid;place-items:center;font-size:42px;overflow:hidden;padding:5px}.pic img{width:100%;height:100%;object-fit:contain;background:#fff}
 .card h4{margin:0;font-size:15px;line-height:1.6;overflow-wrap:anywhere}.desc{font-size:12px;color:var(--muted);line-height:1.7;flex:1}.price{font-weight:bold;color:var(--green);margin:4px 0}.card button{width:100%;padding:10px}
@@ -211,14 +211,22 @@ function syncProductCategorySelect(selectedValue){
 function renderCategories(){
   const cats=categories.length?categories.map(c=>({name:String(c.name),image_url:c.image_url||''})):[...new Set(products.map(p=>p.category).filter(c=>c!==null&&c!==undefined&&String(c).trim()!=='').map(String))].map(name=>({name,image_url:''}));
   const container=$('categories');container.innerHTML='';
-  const add=(label,value,visual)=>{const b=document.createElement('button');b.type='button';b.className='cat'+(activeCategory===value?' active':'');b.setAttribute('aria-label','عرض '+label);const img=document.createElement('img');img.src=visual.url;img.alt='';img.loading='lazy';img.onerror=function(){this.style.display='none';};const span=document.createElement('span');span.textContent=label;b.append(img,span);b.addEventListener('click',()=>setCategory(value,b));container.appendChild(b);};
+  const add=(label,value,visual)=>{const b=document.createElement('button');b.type='button';b.className='cat'+(activeCategory===value?' active':'');b.dataset.category=String(value);b.setAttribute('aria-label','عرض '+label);b.setAttribute('aria-pressed',activeCategory===value?'true':'false');const img=document.createElement('img');img.src=visual.url;img.alt='';img.loading='lazy';img.onerror=function(){this.style.display='none';};const span=document.createElement('span');span.textContent=label;b.append(img,span);container.appendChild(b);};
   add('جميع المنتجات','all',{url:'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80'});
   cats.forEach(c=>add(c.name,c.name,c.image_url?{url:c.image_url}:categoryVisual(c.name)));
 }
+// Delegated click handling ensures taps on the category image or its label select the button reliably on mobile.
+$('categories').addEventListener('click',event=>{
+  const button=event.target.closest('button.cat');
+  if(!button)return;
+  event.preventDefault();
+  setCategory(button.dataset.category);
+});
 function setCategory(value){
   activeCategory=String(value||'all');
   renderCategories();
   renderProducts();
+  $('products').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function resetCategoryForm(){if(!$('categoryForm'))return;$('categoryForm').reset();$('editCategoryId').value='';$('saveCategory').textContent='إضافة القسم';}
 function editCategory(id){const c=categories.find(x=>String(x.id)===String(id));if(!c)return;$('editCategoryId').value=c.id;$('categoryName').value=c.name||'';$('categoryImageUrl').value=c.image_url||'';$('saveCategory').textContent='حفظ تعديلات القسم';$('categoryForm').scrollIntoView({behavior:'smooth',block:'center'});}
