@@ -6,6 +6,12 @@
 <meta name="theme-color" content="#16834a">
 <title>Target Pharmacy | صيدلية التارغيت</title>
 <style>
+  .pic img{object-fit:contain;cursor:zoom-in}
+.image-viewer{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.image-viewer.open{display:flex}
+.image-viewer img{max-width:100%;max-height:85vh;width:auto;height:auto;object-fit:contain;background:#fff;border-radius:12px}
+.image-viewer button{position:absolute;top:20px;left:20px;background:#fff;color:#145b35;font-size:22px;width:45px;height:45px;padding:0;border-radius:50%}
+.pic{cursor:zoom-in}
 :root{--green:#16834a;--dark:#145b35;--pale:#e7f5eb;--muted:#68756e;--line:#e3ebe5}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 10% 5%,#e6f5eb 0,transparent 28%),radial-gradient(circle at 95% 28%,#edf7f0 0,transparent 24%),#f5f8f6;color:#17251c;font-family:Tahoma,Arial,sans-serif}
 button,input,textarea,select{font:inherit}header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
@@ -405,6 +411,28 @@ async function deleteProduct(id){
   }catch(err){alert('تعذّر حذف المنتج: '+String(err.message||err).slice(0,260)+'\\nتحقق من صلاحيات DELETE في Supabase.');}
 }
 updateCart();loadExchangeRate();loadProducts();
+</script>
+  <div id="imageViewer" class="image-viewer" onclick="closeImageViewer()">
+  <button type="button" aria-label="إغلاق" onclick="closeImageViewer()">✕</button>
+  <img id="fullProductImage" src="" alt="صورة المنتج الكاملة" onclick="event.stopPropagation()">
+</div><script>
+function closeImageViewer(){
+  document.getElementById('imageViewer').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('products').addEventListener('click',function(e){
+  const img=e.target.closest('.pic img');
+  if(!img||!img.src)return;
+  e.preventDefault();
+  document.getElementById('fullProductImage').src=img.src;
+  document.getElementById('imageViewer').classList.add('open');
+  document.body.style.overflow='hidden';
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeImageViewer();
+});
 </script>
 </body>
 </html>
