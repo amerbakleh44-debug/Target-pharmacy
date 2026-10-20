@@ -63,13 +63,170 @@ function renderCategories(){
   const cats=[...new Set(products.map(p=>p.category).filter(Boolean))];
   $('categories').innerHTML='<button class="cat '+(activeCategory==='all'?'active':'')+'" onclick="setCategory(\'all\',this)">الكل</button>'+cats.map(c=>'<button class="cat '+(activeCategory===c?'active':'')+'" onclick="setCategory(\''+escapeHTML(c).replace(/'/g,"\\'")+'\',this)">'+escapeHTML(c)+'</button>').join('');
 }
-function setCategory(category,button){activeCategory=category;document.querySelectorAll('.cat').forEach(b=>b.classList.remove('active'));if(button)button.classList.add('active');renderProducts();}
-function renderProducts(){
-  const term=($('search')?.value||'').trim().toLowerCase();
-  const list=products.filter(p=>(activeCategory==='all'||p.category===activeCategory)&&[p.name,p.description,p.category].some(v=>String(v||'').toLowerCase().includes(term)));
-  $('productCount').textContent=list.length+' منتج';
-  if(!list.length){$('products').innerHTML='<div class="empty">لا توجد منتجات مطابقة حالياً.</div>';return;}
-  $('products').innerHTML=list.map(p=>'<article class="card"><div class="pic">'+(p.image_url?'<img src="'+escapeHTML(p.image_url)+'" alt="'+escapeHTML(p.name)+'" loading="lazy" onerror="this.parentElement.textContent=\'🧴\'">':'🧴')+'</div><h4>'+escapeHTML(p.name)+'</h4><div class="desc">'+escapeHTML(p.description||p.category||'منتج من صيدلية التارغيت')+'</div><div class="price">'+(Number(p.price)>0?escapeHTML(Number(p.price).toLocaleString('en-US'))+' ل.س':'السعر عند الطلب')+'</div><button type="button" onclick="addToCart('+Number(p.id)+')">أضف إلى السلة</button></article>').join('');
+function setCategory(category, button) {
+  activeCategory = category;
+
+  document.querySelectorAll('.cat').forEach(b => {
+    b.classList.remove('active');
+  });
+
+  if (button) {
+    button.classList.add('active');
+  }
+
+  const title = $('shopSectionTitle');
+  const backButton = $('backToCategories');
+  const categoriesBox = $('categories');
+  const productsTitle = $('productsTitle');
+  const productsBox = $('products');
+  const searchTerm = ($('search')?.value || '').trim();
+
+  if (category === 'all' && !searchTerm) {
+    if (title) title.textContent = 'تسوّق حسب القسم';
+    if (backButton) backButton.style.display = 'none';
+    if (categoriesBox) categoriesBox.style.display = '';
+    if (productsTitle) productsTitle.style.display = 'none';
+    if (productsBox) productsBox.style.display = 'none';
+  } else {
+    if (title) {
+      title.textContent = category === 'all'
+        ? 'نتائج البحث'
+        : (button ? button.innerText.trim() : category);
+    }
+
+    if (backButton) backButton.style.display = 'inline-block';
+    if (categoriesBox) categoriesBox.style.display = 'none';
+    if (productsTitle) productsTitle.style.display = '';
+    if (productsBox) productsBox.style.display = '';
+  }
+
+  renderProducts();
+}
+
+
+function backToCategories() {
+  activeCategory = 'all';
+
+  const search = $('search');
+  if (search) search.value = '';
+
+  document.querySelectorAll('.cat').forEach(b => {
+    b.classList.remove('active');
+  });
+
+  if ($('shopSectionTitle')) {
+    $('shopSectionTitle').textContent = 'تسوّق حسب القسم';
+  }
+
+  if ($('backToCategories')) {
+    $('backToCategories').style.display = 'none';
+  }
+
+  if ($('categories')) {
+    $('categories').style.display = '';
+  }
+
+  if ($('productsTitle')) {
+    $('productsTitle').style.display = 'none';
+  }
+
+  if ($('products')) {
+    $('products').style.display = 'none';
+  }
+
+  renderProducts();
+}
+
+
+function renderProducts() {
+  const term = ($('search')?.value || '').trim().toLowerCase();
+
+  const categoriesBox = $('categories');
+  const productsTitle = $('productsTitle');
+  const productsBox = $('products');
+  const backButton = $('backToCategories');
+  const sectionTitle = $('shopSectionTitle');
+
+  // بالصفحة الرئيسية تظهر الأقسام فقط، إلا عند استخدام البحث
+  if (activeCategory === 'all' && !term) {
+    if (categoriesBox) categoriesBox.style.display = '';
+    if (productsTitle) productsTitle.style.display = 'none';
+    if (productsBox) productsBox.style.display = 'none';
+    if (backButton) backButton.style.display = 'none';
+
+    if (sectionTitle) {
+      sectionTitle.textContent = 'تسوّق حسب القسم';
+    }
+
+    return;
+  }
+
+  // عند البحث أو فتح قسم، تظهر المنتجات فقط
+  if (categoriesBox) categoriesBox.style.display = 'none';
+  if (productsTitle) productsTitle.style.display = '';
+  if (productsBox) productsBox.style.display = '';
+  if (backButton) backButton.style.display = 'inline-block';
+
+  if (sectionTitle) {
+    if (term && activeCategory === 'all') {
+      sectionTitle.textContent = 'نتائج البحث';
+    } else {
+      const activeButton = document.querySelector(
+        '.cat[data-category="' + CSS.escape(activeCategory) + '"]'
+      );
+
+      sectionTitle.textContent = activeButton
+        ? activeButton.innerText.trim()
+        : activeCategory;
+    }
+  }
+
+  const list = products.filter(p => {
+    const categoryMatch =
+      activeCategory === 'all' || p.category === activeCategory;
+
+    const searchMatch = [
+      p.name,
+      p.description,
+      p.category
+    ].some(v => String(v || '').toLowerCase().includes(term));
+
+    return categoryMatch && searchMatch;
+  });
+
+  if ($('productCount')) {
+    $('productCount').textContent = list.length + ' منتج';
+  }
+
+  if (!list.length) {
+    productsBox.innerHTML =
+      '<div class="empty">لا توجد منتجات مطابقة حالياً.</div>';
+    return;
+  }
+
+  productsBox.innerHTML = list.map(p =>
+    '<article class="card">' +
+      '<div class="pic">' +
+        (p.image_url
+          ? '<img src="' + escapeHTML(p.image_url) +
+            '" alt="' + escapeHTML(p.name) +
+            '" loading="lazy" onerror="this.parentElement.textContent=\'🧴\'">'
+          : '🧴') +
+      '</div>' +
+      '<h4>' + escapeHTML(p.name) + '</h4>' +
+      '<div class="desc">' +
+        escapeHTML(p.description || p.category || 'منتج من صيدلية التارغيت') +
+      '</div>' +
+      '<div class="price">' +
+        (Number(p.price) > 0
+          ? escapeHTML(Number(p.price).toLocaleString('en-US')) + ' ل.س'
+          : 'السعر عند الطلب') +
+      '</div>' +
+      '<button type="button" onclick="addToCart(' + Number(p.id) + ')">' +
+        'أضف إلى السلة' +
+      '</button>' +
+    '</article>'
+  ).join('');
 }
 function addToCart(id){const p=products.find(item=>Number(item.id)===Number(id));if(!p)return;const found=cart.find(item=>Number(item.id)===Number(id));if(found)found.qty++;else cart.push({...p,qty:1});updateCart();}
 function changeQty(id,delta){const item=cart.find(p=>Number(p.id)===Number(id));if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(p=>Number(p.id)!==Number(id));updateCart();}
