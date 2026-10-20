@@ -60,11 +60,20 @@ async function loadProducts(){
   }
 }
 function renderCategories() {
+  const excludedCategories = [
+    'الكل',
+    'جميع المنتجات',
+    'كل المنتجات'
+  ];
+
   const cats = [
     ...new Set(
       products
         .map(p => String(p.category || '').trim())
-        .filter(Boolean)
+        .filter(c =>
+          c &&
+          !excludedCategories.includes(c)
+        )
     )
   ];
 
