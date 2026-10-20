@@ -18,8 +18,19 @@
 <section class="hero"><div><h2>أهلاً بكم في صيدلية التارغيت</h2><p>تسوّقوا منتجات العناية والصحة بسهولة، وأرسلوا طلبكم عبر واتساب.</p><button type="button" onclick="document.getElementById('productsTitle').scrollIntoView({behavior:'smooth'})">تسوّق الآن</button></div><div class="hero-art">🧴</div></section>
 <div id="status" class="status">جاري الاتصال بقاعدة البيانات...</div>
 <div class="searchrow"><input id="search" placeholder="ابحث عن منتج أو اسم شركة..." oninput="renderProducts()"><button type="button" onclick="openCart()">إتمام الطلب</button></div>
-<div class="sectionhead"><h3>تسوّق حسب القسم</h3></div><div id="categories" class="categories"><button class="cat active" data-category="all" onclick="setCategory('all',this)">الكل</button></div>
-<div class="sectionhead" id="productsTitle"><h3>منتجاتنا</h3><span id="productCount" style="font-size:12px;color:var(--muted)"></span></div><div id="products" class="grid"><div class="empty">جاري تحميل المنتجات...</div></div>
+<div class="sectionhead">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <button type="button" id="backToCategories" onclick="backToCategories()" style="display:none;border:0;border-radius:10px;padding:9px 14px;background:#16834a;color:white;font-weight:bold;cursor:pointer">
+      ← رجوع للأقسام
+    </button>
+    <h3 id="shopSectionTitle">تسوّق حسب القسم</h3>
+  </div>
+</div><div id="categories" class="categories"></div><div class="sectionhead" id="productsTitle" style="display:none">
+  <h3 id="productsHeading">منتجاتنا</h3>
+  <span id="productCount" style="font-size:12px;color:var(--muted)"></span>
+</div><div id="products" class="grid" style="display:none">
+  <div class="empty">جاري تحميل المنتجات...</div>
+</div>
 <p class="notice">للاستفسار عن التوفر أو الأسعار، يرجى التواصل مع الصيدلية. تُرسل تفاصيل الطلب عبر واتساب لمراجعتها قبل التأكيد.</p>
 </main>
 <div id="cartModal" class="modal" onclick="if(event.target===this)closeCart()"><div class="panel"><div class="panelhead"><h3>سلة الطلبات</h3><button class="close" type="button" onclick="closeCart()">إغلاق ✕</button></div><div id="cartItems"></div><div class="total" id="cartTotal">المجموع: 0</div><form id="orderForm"><div class="formgrid"><input id="customerName" placeholder="الاسم" required><input id="customerPhone" placeholder="رقم الهاتف" required inputmode="tel"><input id="customerArea" class="full" placeholder="المنطقة والعنوان" required><textarea id="notes" class="full" placeholder="ملاحظات إضافية (اختياري)"></textarea><button class="full" type="submit">إرسال الطلب عبر واتساب</button></div></form><p class="notice">سيتم فتح واتساب برسالة جاهزة لمراجعة الطلب. لا تُدخل معلومات طبية حساسة في الملاحظات.</p></div></div>
