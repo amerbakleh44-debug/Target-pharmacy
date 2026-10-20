@@ -286,49 +286,27 @@ function renderCategories(){
     );
   });
 }
-function setCategory(value){
+$('categories').addEventListener('click', function(event){
+  const button = event.target.closest('button.cat');
+  if (!button) return;
+  event.preventDefault();
+  setCategory(button.dataset.category);
+});
+  function setCategory(value){
   activeCategory = String(value || 'all');
 
   const categoriesBox = $('categories');
-  const productsBox = $('products');
-  const productsTitle = $('productsTitle');
-  const backButton = $('backToCategories');
-  const sectionTitle = $('shopSectionTitle');
-
   if (categoriesBox) {
-    categoriesBox.style.display = 'none';
-  }
-
-  if (productsBox) {
-    productsBox.style.display = '';
-  }
-
-  if (productsTitle) {
-    productsTitle.style.display = '';
-  }
-
-  if (backButton) {
-    backButton.style.display = 'inline-block';
-  }
-
-  if (sectionTitle) {
-    const selectedButton = [...document.querySelectorAll('#categories .cat')]
-      .find(button => button.dataset.category === activeCategory);
-
-    sectionTitle.textContent = selectedButton
-      ? selectedButton.textContent.trim()
-      : activeCategory;
+    categoriesBox.style.display = '';
   }
 
   renderCategories();
   renderProducts();
 
-  if (productsBox) {
-    productsBox.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }
+  $('products').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 }
 function resetCategoryForm(){if(!$('categoryForm'))return;$('categoryForm').reset();$('editCategoryId').value='';$('saveCategory').textContent='إضافة القسم';}
 function editCategory(id){const c=categories.find(x=>String(x.id)===String(id));if(!c)return;$('editCategoryId').value=c.id;$('categoryName').value=c.name||'';$('categoryImageUrl').value=c.image_url||'';$('saveCategory').textContent='حفظ تعديلات القسم';$('categoryForm').scrollIntoView({behavior:'smooth',block:'center'});}
