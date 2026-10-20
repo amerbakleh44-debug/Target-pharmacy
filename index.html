@@ -292,6 +292,13 @@ $('categories').addEventListener('click', function(event){
   event.preventDefault();
   setCategory(button.dataset.category);
 });
+ $('categories').addEventListener('click', function(event){
+  const button = event.target.closest('button.cat');
+  if (!button) return;
+
+  event.preventDefault();
+  setCategory(button.dataset.category);
+});
   function setCategory(value){
   activeCategory = String(value || 'all');
 
