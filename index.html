@@ -215,19 +215,77 @@ function syncProductCategorySelect(selectedValue){
   if(names.includes(current))select.value=current;
 }
 function renderCategories(){
-  const cats=categories.length?categories.map(c=>({name:String(c.name),image_url:c.image_url||''})):[...new Set(products.map(p=>p.category).filter(c=>c!==null&&c!==undefined&&String(c).trim()!=='').map(String))].map(name=>({name,image_url:''}));
-  const container=$('categories');container.innerHTML='';
-  const add=(label,value,visual)=>{const b=document.createElement('button');b.type='button';b.className='cat'+(activeCategory===value?' active':'');b.dataset.category=String(value);b.setAttribute('aria-label','عرض '+label);b.setAttribute('aria-pressed',activeCategory===value?'true':'false');const img=document.createElement('img');img.src=visual.url;img.alt='';img.loading='lazy';img.onerror=function(){this.style.display='none';};const span=document.createElement('span');span.textContent=label;b.append(img,span);container.appendChild(b);};
-  add('جميع المنتجات','all',{url:'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80'});
-  cats.forEach(c=>add(c.name,c.name,c.image_url?{url:c.image_url}:categoryVisual(c.name)));
+  const excludedNames = [
+    'الكل',
+    'جميع المنتجات',
+    'كل المنتجات'
+  ];
+
+  const normalizeName = name =>
+    String(name || '').trim().replace(/\s+/g, ' ').toLowerCase();
+
+  const cats = categories.length
+    ? categories
+        .map(c => ({
+          name: String(c.name || '').trim(),
+          image_url: c.image_url || ''
+        }))
+        .filter(c => c.name && !excludedNames.some(
+          name => normalizeName(name) === normalizeName(c.name)
+        ))
+    : [
+        ...new Set(
+          products
+            .map(p => String(p.category || '').trim())
+            .filter(c => c && !excludedNames.some(
+              name => normalizeName(name) === normalizeName(c)
+            ))
+        )
+      ].map(name => ({
+        name,
+        image_url: ''
+      }));
+
+  const container = $('categories');
+  container.innerHTML = '';
+
+  const add = (label, value, visual) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cat' + (activeCategory === value ? ' active' : '');
+    b.dataset.category = String(value);
+    b.setAttribute('aria-label', 'عرض ' + label);
+    b.setAttribute(
+      'aria-pressed',
+      activeCategory === value ? 'true' : 'false'
+    );
+
+    const img = document.createElement('img');
+    img.src = visual.url;
+    img.alt = '';
+    img.loading = 'lazy';
+
+    img.onerror = function(){
+      this.style.display = 'none';
+    };
+
+    const span = document.createElement('span');
+    span.textContent = label;
+
+    b.append(img, span);
+    container.appendChild(b);
+  };
+
+  cats.forEach(c => {
+    add(
+      c.name,
+      c.name,
+      c.image_url
+        ? { url: c.image_url }
+        : categoryVisual(c.name)
+    );
+  });
 }
-// Delegated click handling ensures taps on the category image or its label select the button reliably on mobile.
-$('categories').addEventListener('click',event=>{
-  const button=event.target.closest('button.cat');
-  if(!button)return;
-  event.preventDefault();
-  setCategory(button.dataset.category);
-});
 function setCategory(value){
   activeCategory=String(value||'all');
   renderCategories();
