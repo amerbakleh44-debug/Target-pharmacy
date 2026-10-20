@@ -66,16 +66,36 @@ function renderCategories() {
     'كل المنتجات'
   ];
 
+  function normalizeCategory(value) {
+    return String(value || '')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLowerCase();
+  }
+
+  const excluded = excludedCategories.map(normalizeCategory);
+
   const cats = [
     ...new Set(
       products
         .map(p => String(p.category || '').trim())
-        .filter(c =>
-          c &&
-          !excludedCategories.includes(c)
-        )
+        .filter(c => {
+          const normalized = normalizeCategory(c);
+
+          return c &&
+            !excluded.some(name => normalized.includes(name));
+        })
     )
   ];
+
+  $('categories').innerHTML = cats.map(c =>
+    '<button type="button" class="cat" data-category="' +
+    escapeHTML(c) +
+    '" onclick="setCategory(this.dataset.category,this)">' +
+    escapeHTML(c) +
+    '</button>'
+  ).join('');
+}
 
   $('categories').innerHTML = cats.map(c =>
     '<button type="button" class="cat" data-category="' +
