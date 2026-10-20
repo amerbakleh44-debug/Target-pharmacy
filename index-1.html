@@ -59,9 +59,22 @@ async function loadProducts(){
     $('products').innerHTML='<div class="empty">لم نتمكن من تحميل المنتجات. تأكد من اتصال الإنترنت وإعدادات قاعدة البيانات، ثم أعد تحميل الصفحة.</div>';
   }
 }
-function renderCategories(){
-  const cats=[...new Set(products.map(p=>p.category).filter(Boolean))];
-  $('categories').innerHTML='<button class="cat '+(activeCategory==='all'?'active':'')+'" onclick="setCategory(\'all\',this)">الكل</button>'+cats.map(c=>'<button class="cat '+(activeCategory===c?'active':'')+'" onclick="setCategory(\''+escapeHTML(c).replace(/'/g,"\\'")+'\',this)">'+escapeHTML(c)+'</button>').join('');
+function renderCategories() {
+  const cats = [
+    ...new Set(
+      products
+        .map(p => String(p.category || '').trim())
+        .filter(Boolean)
+    )
+  ];
+
+  $('categories').innerHTML = cats.map(c =>
+    '<button type="button" class="cat" data-category="' +
+    escapeHTML(c) +
+    '" onclick="setCategory(this.dataset.category,this)">' +
+    escapeHTML(c) +
+    '</button>'
+  ).join('');
 }
 function setCategory(category, button) {
   activeCategory = category;
