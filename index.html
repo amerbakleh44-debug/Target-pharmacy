@@ -6,436 +6,1134 @@
 <meta name="theme-color" content="#16834a">
 <title>Target Pharmacy | صيدلية التارغيت</title>
 <style>
-  .pic img{object-fit:contain;cursor:zoom-in}
+:root{--green:#16834a;--dark:#145b35;--pale:#e7f5eb;--muted:#68756e;--line:#e3ebe5}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 10% 5%,#e6f5eb 0,transparent 28%),radial-gradient(circle at 95% 28%,#edf7f0 0,transparent 24%),#f5f8f6;color:#17251c;font-family:Tahoma,Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{max-width:1100px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:13px}
+.logo{width:58px;height:58px;border-radius:15px;background:var(--pale);display:grid;place-items:center;font-size:31px;flex-shrink:0}
+.brand{flex:1;min-width:0}
+.brand h1{font-size:20px;margin:0;color:var(--dark)}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}
+button{border:0;border-radius:12px;background:var(--green);color:#fff;padding:11px 15px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+button.secondary{background:#edf3ee;color:#223}
+button.danger{background:#b42318}
+button.small{padding:8px 10px;font-size:12px}
+main{max-width:1100px;margin:auto;padding:20px 16px 50px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(115deg,rgba(12,87,49,.97),rgba(22,131,74,.92) 58%,rgba(229,247,235,.96));border:1px solid #cde7d5;border-radius:25px;padding:30px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 14px 34px #145b3517}
+.hero h2{font-size:27px;color:#fff;margin:0 0 9px}
+.hero p{line-height:1.9;margin:0 0 15px;color:#e9f7ee}
+.hero-art{width:125px;height:125px;flex-shrink:0;border-radius:24px;background:#fff;display:grid;place-items:center;font-size:68px;box-shadow:0 12px 28px #073a2226}
+.searchrow{display:flex;gap:10px;margin:20px 0}
+.searchrow input{flex:1;min-width:0}
+input,textarea,select{border:1px solid #d8e2da;border-radius:11px;padding:12px;background:#fff;width:100%;outline-color:var(--green)}
+.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px}
+.sectionhead h3{margin:0;color:var(--dark)}
+.categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;padding:2px 0 8px}
+.cat{position:relative;min-height:130px;overflow:hidden;text-align:right;background:#e6f3e9;color:#fff;border:2px solid transparent;padding:0;border-radius:17px;box-shadow:0 5px 18px #1231;isolation:isolate;cursor:pointer;touch-action:manipulation}
+.cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .25s;pointer-events:none}
+.cat:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0d2c1fe8,transparent 82%);z-index:-1;pointer-events:none}
+.cat span{position:absolute;right:12px;bottom:12px;left:10px;font-weight:bold;font-size:14px;line-height:1.5;pointer-events:none}
+.cat:hover img{transform:scale(1.05)}
+.cat.active{border-color:#39b66e;box-shadow:0 0 0 2px #39b66e45}
+.cat.subcat{border-color:#d7e8dd;background:#eaf1ec}
+.cat.subcat:after{background:linear-gradient(0deg,#173e2eea,rgba(23,62,46,.08) 90%)}
+.cat.back-cat{background:linear-gradient(135deg,#e1eee5,#c9dfd0);color:var(--dark);border:1px solid #c6ddce}
+.cat.back-cat:after{background:linear-gradient(0deg,#d6e9dcaa,transparent)}
+.cat.back-cat span{color:var(--dark)}
+#products{scroll-margin-top:145px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pic{height:145px;background:#fff;border:1px solid #f0f2f0;border-radius:12px;display:grid;place-items:center;font-size:42px;overflow:hidden;padding:5px;cursor:zoom-in}
+.pic img{width:100%;height:100%;object-fit:contain;background:#fff;cursor:zoom-in}
+.card h4{margin:0;font-size:15px;line-height:1.6;overflow-wrap:anywhere}
+.desc{font-size:12px;color:var(--muted);line-height:1.7;flex:1}
+.price{font-weight:bold;color:var(--green);margin:4px 0}
+.card button{width:100%;padding:10px}
+.notice{font-size:12px;color:#6a756e;line-height:1.8;margin-top:18px}
+.medical-notice{background:#fff9e9;border:1px solid #f0dfb2;border-right:4px solid #c99520;color:#614d1c;border-radius:14px;padding:13px 15px;line-height:1.9;font-size:12px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#145b35;color:#fff;padding:12px 18px;border-radius:14px;box-shadow:0 8px 26px #0003;z-index:30;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;font-size:13px;font-weight:bold;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.cart-bump{animation:cartBump .42s ease}
+@keyframes cartBump{0%,100%{transform:scale(1)}40%{transform:scale(1.14)}}
+.cart-fly{position:fixed;z-index:40;width:13px;height:13px;border-radius:50%;background:#f3c84b;box-shadow:0 0 0 5px #f3c84b35;pointer-events:none;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .55s}
+.status{border-radius:12px;background:#fff;border:1px solid var(--line);padding:12px 14px;margin:12px 0;color:var(--muted);font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;align-items:flex-end;justify-content:center}
+.modal.open{display:flex}
+.panel{background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:92vh;overflow:auto}
+.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.panelhead h3{margin:0}
+.close{background:#edf3ee;color:#223}
+.cartitem{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cartitem-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.cartitem-actions button{padding:7px 11px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.full{grid-column:1/-1}
+.total{font-weight:bold;font-size:16px;margin:14px 0}
+.empty{color:var(--muted);padding:16px 0;line-height:1.8;grid-column:1/-1}
+.adminbox{display:none;background:#fff;border:1px solid #cfe5d5;border-radius:18px;padding:16px;margin:18px 0}
+.adminbox.open{display:block}
+.adminbox h3{margin:0 0 12px;color:var(--dark)}
+.adminform{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.adminform textarea{min-height:80px}
+.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.admin-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.admin-tools button{width:auto!important}
 .image-viewer{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .image-viewer.open{display:flex}
 .image-viewer img{max-width:100%;max-height:85vh;width:auto;height:auto;object-fit:contain;background:#fff;border-radius:12px}
 .image-viewer button{position:absolute;top:20px;left:20px;background:#fff;color:#145b35;font-size:22px;width:45px;height:45px;padding:0;border-radius:50%}
-.pic{cursor:zoom-in}
-:root{--green:#16834a;--dark:#145b35;--pale:#e7f5eb;--muted:#68756e;--line:#e3ebe5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 10% 5%,#e6f5eb 0,transparent 28%),radial-gradient(circle at 95% 28%,#edf7f0 0,transparent 24%),#f5f8f6;color:#17251c;font-family:Tahoma,Arial,sans-serif}
-button,input,textarea,select{font:inherit}header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-.top{max-width:1100px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:13px}
-.logo{width:58px;height:58px;border-radius:15px;background:var(--pale);display:grid;place-items:center;font-size:31px;flex-shrink:0}
-.brand{flex:1;min-width:0}.brand h1{font-size:20px;margin:0;color:var(--dark)}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}
-button{border:0;border-radius:12px;background:var(--green);color:#fff;padding:11px 15px;font-weight:bold;cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}
-button.secondary{background:#edf3ee;color:#223}button.danger{background:#b42318}button.small{padding:8px 10px;font-size:12px}
-main{max-width:1100px;margin:auto;padding:20px 16px 50px}
-.hero{position:relative;overflow:hidden;background:linear-gradient(115deg,rgba(12,87,49,.97),rgba(22,131,74,.92) 58%,rgba(229,247,235,.96));border:1px solid #cde7d5;border-radius:25px;padding:30px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 14px 34px #145b3517}
-.hero:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #ffffff35;border-radius:50%;left:-65px;top:-120px;box-shadow:0 0 0 28px #ffffff0d,0 0 0 58px #ffffff0a;pointer-events:none}
-.hero>div{position:relative;z-index:1}.hero h2{color:#fff}.hero p{color:#e9f7ee}.hero-art{box-shadow:0 12px 28px #073a2226}
-.hero h2{font-size:27px;color:var(--dark);margin:0 0 9px}.hero p{line-height:1.9;margin:0 0 15px;color:#53655a}.hero-art{width:125px;height:125px;flex-shrink:0;border-radius:24px;background:#fff;display:grid;place-items:center;font-size:68px}
-.searchrow{display:flex;gap:10px;margin:20px 0}.searchrow input{flex:1;min-width:0}input,textarea,select{border:1px solid #d8e2da;border-radius:11px;padding:12px;background:#fff;width:100%;outline-color:var(--green)}
-.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px}.sectionhead h3{margin:0;color:var(--dark)}
-.categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;padding:2px 0 8px}.cat{position:relative;z-index:1;min-height:130px;overflow:hidden;white-space:normal;text-align:right;background:#e6f3e9;color:#fff;border:2px solid transparent;padding:0;border-radius:17px;box-shadow:0 5px 18px #1231;isolation:isolate;pointer-events:auto;touch-action:manipulation;cursor:pointer}.cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .25s;pointer-events:none}.cat:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0d2c1fe8,transparent 82%);z-index:-1;pointer-events:none}.cat span{position:absolute;right:12px;bottom:12px;left:10px;font-weight:bold;font-size:14px;line-height:1.5;pointer-events:none}#products{scroll-margin-top:145px}.cat.active{border-color:#39b66e;box-shadow:0 0 0 2px #39b66e45}.cat:hover img{transform:scale(1.05)}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.pic{height:145px;background:#fff;border:1px solid #f0f2f0;border-radius:12px;display:grid;place-items:center;font-size:42px;overflow:hidden;padding:5px}.pic img{width:100%;height:100%;object-fit:contain;background:#fff}
-.card h4{margin:0;font-size:15px;line-height:1.6;overflow-wrap:anywhere}.desc{font-size:12px;color:var(--muted);line-height:1.7;flex:1}.price{font-weight:bold;color:var(--green);margin:4px 0}.card button{width:100%;padding:10px}
-.notice{font-size:12px;color:#6a756e;line-height:1.8;margin-top:18px}.medical-notice{background:#fff9e9;border:1px solid #f0dfb2;border-right:4px solid #c99520;color:#614d1c;border-radius:14px;padding:13px 15px;line-height:1.9;font-size:12px;margin-top:18px}.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#145b35;color:#fff;padding:12px 18px;border-radius:14px;box-shadow:0 8px 26px #0003;z-index:30;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;font-size:13px;font-weight:bold;max-width:90vw;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.cart-bump{animation:cartBump .42s ease}@keyframes cartBump{0%,100%{transform:scale(1)}40%{transform:scale(1.14)}}.cart-fly{position:fixed;z-index:40;width:13px;height:13px;border-radius:50%;background:#f3c84b;box-shadow:0 0 0 5px #f3c84b35;pointer-events:none;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .55s}.status{border-radius:12px;background:#fff;border:1px solid var(--line);padding:12px 14px;margin:12px 0;color:var(--muted);font-size:13px;line-height:1.7;overflow-wrap:anywhere}
-.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;align-items:flex-end;justify-content:center}.modal.open{display:flex}
-.panel{background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:92vh;overflow:auto}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px}.panelhead h3{margin:0}.close{background:#edf3ee;color:#223}
-.cartitem{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.cartitem-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}.cartitem-actions button{padding:7px 11px}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.full{grid-column:1/-1}.total{font-weight:bold;font-size:16px;margin:14px 0}.empty{color:var(--muted);padding:16px 0;line-height:1.8;grid-column:1/-1}
-.adminbox{display:none;background:#fff;border:1px solid #cfe5d5;border-radius:18px;padding:16px;margin:18px 0}.adminbox.open{display:block}.adminbox h3{margin:0 0 12px;color:var(--dark)}.adminform{display:grid;grid-template-columns:1fr 1fr;gap:10px}.adminform textarea{min-height:80px}.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.admin-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.admin-tools button{width:auto!important}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.categories{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cat{min-height:118px}.hero h2{font-size:22px}.hero-art{width:88px;height:88px;font-size:48px}.hero{padding:18px}.top{padding:10px 13px}.brand h1{font-size:17px}.pic{height:115px}}
-@media(max-width:390px){.hero-art{display:none}.formgrid,.adminform{grid-template-columns:1fr}.full{grid-column:auto}.searchrow button{padding:10px}.logo{width:48px;height:48px}.brand h1{font-size:15px}.top>button{padding:9px;font-size:11px}.cat{min-height:108px}.cat span{font-size:12px;right:9px;bottom:9px}}
+@media(max-width:760px){
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.categories{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cat{min-height:118px}
+.hero h2{font-size:22px}
+.hero-art{width:88px;height:88px;font-size:48px}
+.hero{padding:18px}
+.top{padding:10px 13px}
+.brand h1{font-size:17px}
+.pic{height:115px}
+}
+@media(max-width:390px){
+.hero-art{display:none}
+.formgrid,.adminform{grid-template-columns:1fr}
+.full{grid-column:auto}
+.searchrow button{padding:10px}
+.logo{width:48px;height:48px}
+.brand h1{font-size:15px}
+.top>button{padding:9px;font-size:11px}
+.cat{min-height:108px}
+.cat span{font-size:12px;right:9px;bottom:9px}
+}
 </style>
 </head>
 <body>
-<header><div class="top">
+
+<header>
+<div class="top">
   <div class="logo" aria-hidden="true">💊</div>
   <div class="brand"><h1>صيدلية التارغيت</h1><p>Target Pharmacy · صحتكم تهمنا</p></div>
   <button type="button" class="secondary" onclick="openAdmin()">إدارة المتجر</button>
   <button type="button" onclick="openCart()">السلة (<span id="cartCount">0</span>)</button>
-</div></header>
+</div>
+</header>
+
 <main>
-  <section class="hero"><div><h2>أهلاً بكم في صيدلية التارغيت</h2><p>تسوّقوا منتجات العناية والصحة بسهولة، وأرسلوا طلبكم عبر واتساب.</p><button type="button" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">تصفّح المنتجات</button></div><div class="hero-art" aria-hidden="true">🧴</div></section>
-  <div id="status" class="status" role="status" aria-live="polite">جاري تجهيز المتجر...</div>
+<section class="hero">
+  <div>
+    <h2>أهلاً بكم في صيدلية التارغيت</h2>
+    <p>تسوّقوا منتجات العناية والصحة بسهولة، وأرسلوا طلبكم عبر واتساب.</p>
+    <button type="button" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">تصفّح المنتجات</button>
+  </div>
+  <div class="hero-art" aria-hidden="true">🧴</div>
+</section>
 
-  <section id="adminBox" class="adminbox" aria-label="لوحة إدارة المنتجات">
-    <div class="panelhead"><h3>لوحة إدارة المنتجات</h3><button type="button" class="secondary small" onclick="closeAdmin()">إغلاق ✕</button></div>
-    <div id="adminLogin">
-      <p class="desc">سجّل الدخول بحساب المدير الذي أنشأته في Supabase Authentication. لا تستخدم بيانات حساب Supabase الرئيسي.</p>
-      <form id="loginForm" class="adminform">
-        <input id="adminEmail" type="email" autocomplete="username" placeholder="البريد الإلكتروني للمدير" required>
-        <input id="adminPassword" type="password" autocomplete="current-password" placeholder="كلمة المرور" required>
-        <button class="full" type="submit" id="loginButton">تسجيل الدخول</button>
-      </form>
-      <div id="loginStatus" class="status" aria-live="polite">لوحة الإدارة متاحة لحساب المدير المصرّح له فقط.</div>
+<div id="status" class="status" role="status" aria-live="polite">جاري تجهيز المتجر...</div>
+
+<section id="adminBox" class="adminbox" aria-label="لوحة إدارة المنتجات">
+<div class="panelhead"><h3>لوحة إدارة المنتجات</h3><button type="button" class="secondary small" onclick="closeAdmin()">إغلاق ✕</button></div>
+
+<div id="adminLogin">
+  <p class="desc">سجّل الدخول بحساب المدير الذي أنشأته في Supabase Authentication.</p>
+  <form id="loginForm" class="adminform">
+    <input id="adminEmail" type="email" autocomplete="username" placeholder="البريد الإلكتروني للمدير" required>
+    <input id="adminPassword" type="password" autocomplete="current-password" placeholder="كلمة المرور" required>
+    <button class="full" type="submit" id="loginButton">تسجيل الدخول</button>
+  </form>
+  <div id="loginStatus" class="status">لوحة الإدارة متاحة لحساب المدير المصرّح له فقط.</div>
+</div>
+
+<div id="adminPanel" hidden>
+  <div class="status">تم تسجيل الدخول. يمكنك إدارة المنتجات والأقسام الرئيسية والفرعية من هنا.</div>
+
+  <form id="productForm" class="adminform">
+    <input id="editProductId" type="hidden">
+    <input id="productName" placeholder="اسم المنتج *" required>
+    <select id="productCategory" required><option value="">اختر القسم الرئيسي *</option></select>
+    <select id="productSubcategory"><option value="">بدون قسم فرعي</option></select>
+    <input id="productPriceUsd" type="number" min="0" step="0.01" placeholder="السعر بالدولار (اختياري)">
+    <input id="productPrice" type="number" min="0" step="any" placeholder="السعر بالليرة السورية">
+    <input id="productImage" type="url" class="full" placeholder="رابط صورة المنتج (اختياري)">
+    <label class="full">أو اختر صورة من الموبايل
+      <input id="productImageFile" type="file" accept="image/*" style="margin-top:8px;padding:9px">
+    </label>
+    <div id="imageUploadStatus" class="status full">رفع الصور يحتاج مساحة تخزين Supabase المفعّلة.</div>
+    <textarea id="productDescription" class="full" placeholder="وصف المنتج (اختياري)"></textarea>
+    <label class="full"><input id="productActive" type="checkbox" checked style="width:auto;margin-left:8px"> المنتج مفعّل ويظهر في المتجر</label>
+    <div class="admin-actions full">
+      <button type="submit" id="saveProduct">حفظ المنتج</button>
+      <button type="button" class="secondary" onclick="resetProductForm()">تفريغ الحقول</button>
+      <button type="button" class="danger" onclick="logoutAdmin()">تسجيل الخروج</button>
     </div>
-    <div id="adminPanel" hidden>
-      <div class="status">تم تسجيل الدخول. أضف منتجاً جديداً أو اختر منتجاً من القائمة لتعديله. صلاحيات قاعدة البيانات هي التي تتحكم فعلياً بما يسمح لك بتغييره.</div>
-      <form id="productForm" class="adminform">
-        <input id="editProductId" type="hidden">
-        <input id="productName" placeholder="اسم المنتج *" required>
-        <select id="productCategory" required><option value="">اختر القسم *</option></select>
-        <input id="productPriceUsd" type="number" min="0" step="0.01" placeholder="السعر بالدولار (اختياري)">
-        <input id="productPrice" type="number" min="0" step="any" placeholder="السعر بالليرة السورية (لمنتج بلا سعر دولار)">
-        <input id="productImage" type="url" class="full" placeholder="رابط صورة المنتج (اختياري)">
-        <label class="full">أو اختر صورة من الموبايل <input id="productImageFile" type="file" accept="image/*" style="margin-top:8px;padding:9px"></label>
-        <div id="imageUploadStatus" class="status full" aria-live="polite">رفع الصور يحتاج إعداد مساحة تخزين في Supabase مرة واحدة.</div>
-        <textarea id="productDescription" class="full" placeholder="وصف المنتج (اختياري)"></textarea>
-        <label class="full"><input id="productActive" type="checkbox" checked style="width:auto;margin-left:8px"> المنتج مفعّل ويظهر في المتجر</label>
-        <div class="admin-actions full"><button type="submit" id="saveProduct">حفظ المنتج</button><button type="button" class="secondary" onclick="resetProductForm()">تفريغ الحقول</button><button type="button" class="danger" onclick="logoutAdmin()">تسجيل الخروج</button></div>
-      </form>
-      <div class="status" style="margin-top:18px">
-        <strong>إدارة الأقسام</strong>
-        <p style="margin:7px 0">أضف قسماً جديداً مع صورة خاصة به. سيظهر القسم في المتجر وفي قائمة الأقسام عند إضافة منتج.</p>
-        <form id="categoryForm" class="adminform">
-          <input id="editCategoryId" type="hidden">
-          <input id="categoryName" placeholder="اسم القسم الجديد *" required>
-          <input id="categoryImageUrl" type="url" placeholder="رابط صورة القسم (اختياري)"><label class="full">أو اختر صورة للقسم من الموبايل <input id="categoryImageFile" type="file" accept="image/*" style="margin-top:8px;padding:9px"></label>
-          <div class="admin-actions full"><button type="submit" id="saveCategory">إضافة القسم</button><button type="button" class="secondary" onclick="resetCategoryForm()">تفريغ الحقول</button></div>
-        </form>
-        <div id="categoryStatus" class="desc" style="margin-top:8px">جاري تحميل الأقسام...</div>
-        <div id="adminCategories"></div>
+  </form>
+
+  <div class="status" style="margin-top:18px">
+    <strong>إدارة الأقسام الرئيسية</strong>
+    <form id="categoryForm" class="adminform" style="margin-top:12px">
+      <input id="editCategoryId" type="hidden">
+      <input id="categoryName" placeholder="اسم القسم الرئيسي *" required>
+      <input id="categoryImageUrl" type="url" placeholder="رابط صورة القسم (اختياري)">
+      <label class="full">أو اختر صورة للقسم من الموبايل
+        <input id="categoryImageFile" type="file" accept="image/*" style="margin-top:8px;padding:9px">
+      </label>
+      <div class="admin-actions full">
+        <button type="submit" id="saveCategory">إضافة القسم</button>
+        <button type="button" class="secondary" onclick="resetCategoryForm()">تفريغ الحقول</button>
       </div>
-      <div class="status" style="margin-top:18px"><strong>إعداد سعر الصرف</strong><p style="margin:7px 0">أدخل كم ليرة سورية تساوي دولاراً واحداً. المنتجات التي لها سعر بالدولار ستُحوّل تلقائياً عند عرضها.</p><div class="formgrid"><input id="exchangeRateInput" type="number" min="1" step="any" placeholder="مثال: 13000 ل.س لكل دولار"><button type="button" id="saveExchangeRate" onclick="saveExchangeRate()">حفظ سعر الصرف</button></div><div id="exchangeRateStatus" class="desc" style="margin-top:8px">جاري تحميل سعر الصرف...</div></div>
-      <div class="sectionhead"><h3>المنتجات الحالية</h3><button type="button" class="secondary small" onclick="loadProducts()">تحديث القائمة</button></div>
-      <div id="adminProducts"></div>
-    </div>
-  </section>
+    </form>
+    <div id="categoryStatus" class="desc" style="margin-top:8px">جاري تحميل الأقسام...</div>
+    <div id="adminCategories"></div>
+  </div>
 
-  <section id="shop">
-    <div class="searchrow"><input id="search" type="search" placeholder="ابحث عن منتج أو اسم شركة..." aria-label="البحث عن منتج"><button type="button" onclick="openCart()">إتمام الطلب</button></div>
-    <div class="sectionhead"><h3>تسوّق حسب القسم</h3><span id="productCount" class="desc"></span></div>
-    <div id="categories" class="categories" aria-label="أقسام المنتجات"></div><div id="products" class="grid"></div>
-  </section>
-  <div class="medical-notice"><strong>تنويه مهم:</strong> هذا المتجر مخصص لعرض منتجات العناية والتجميل والمنتجات غير الدوائية، ولا يتضمن الأدوية أو الوصفات العلاجية، ولا يقدّم تشخيصاً أو استشارة طبية. لأي استفسار علاجي، راجع الطبيب أو الصيدلي.</div>
-  <p class="notice">قد تختلف الأسعار والتوفّر. سيتم تأكيد تفاصيل الطلب عبر واتساب. لا تُدخل معلومات طبية حساسة في الملاحظات.</p>
+  <div class="status" style="margin-top:18px">
+    <strong>إدارة الأقسام الفرعية</strong>
+    <p style="margin:7px 0">اختر القسم الرئيسي الذي تريد إضافة قسم فرعي تحته.</p>
+    <form id="subcategoryForm" class="adminform">
+      <input id="editSubcategoryId" type="hidden">
+      <select id="subcategoryParent" required><option value="">اختر القسم الرئيسي *</option></select>
+      <input id="subcategoryName" placeholder="اسم القسم الفرعي *" required>
+      <input id="subcategoryImageUrl" type="url" class="full" placeholder="رابط صورة القسم الفرعي (اختياري)">
+      <label class="full">أو اختر صورة للقسم الفرعي من الموبايل
+        <input id="subcategoryImageFile" type="file" accept="image/*" style="margin-top:8px;padding:9px">
+      </label>
+      <div class="admin-actions full">
+        <button type="submit" id="saveSubcategory">إضافة القسم الفرعي</button>
+        <button type="button" class="secondary" onclick="resetSubcategoryForm()">تفريغ الحقول</button>
+      </div>
+    </form>
+    <div id="subcategoryStatus" class="desc" style="margin-top:8px">جاري تحميل الأقسام الفرعية...</div>
+    <div id="adminSubcategories"></div>
+  </div>
+
+  <div class="status" style="margin-top:18px">
+    <strong>إعداد سعر الصرف</strong>
+    <p style="margin:7px 0">أدخل كم ليرة سورية تساوي دولاراً واحداً.</p>
+    <div class="formgrid">
+      <input id="exchangeRateInput" type="number" min="1" step="any" placeholder="مثال: 13000 ل.س لكل دولار">
+      <button type="button" id="saveExchangeRate" onclick="saveExchangeRate()">حفظ سعر الصرف</button>
+    </div>
+    <div id="exchangeRateStatus" class="desc" style="margin-top:8px">جاري تحميل سعر الصرف...</div>
+  </div>
+
+  <div class="sectionhead">
+    <h3>المنتجات الحالية</h3>
+    <button type="button" class="secondary small" onclick="loadProducts()">تحديث القائمة</button>
+  </div>
+  <div id="adminProducts"></div>
+</div>
+</section>
+
+<section id="shop">
+  <div class="searchrow">
+    <input id="search" type="search" placeholder="ابحث عن منتج أو اسم شركة..." aria-label="البحث عن منتج">
+    <button type="button" onclick="openCart()">إتمام الطلب</button>
+  </div>
+  <div class="sectionhead">
+    <h3 id="categoryHeading">تسوّق حسب القسم</h3>
+    <span id="productCount" class="desc"></span>
+  </div>
+  <div id="categories" class="categories" aria-label="أقسام المنتجات"></div>
+  <div id="products" class="grid"></div>
+</section>
+
+<div class="medical-notice">
+  <strong>تنويه مهم:</strong> هذا المتجر مخصص لعرض منتجات العناية والتجميل والمنتجات غير الدوائية، ولا يتضمن الأدوية أو الوصفات العلاجية، ولا يقدّم تشخيصاً أو استشارة طبية. لأي استفسار علاجي، راجع الطبيب أو الصيدلي.
+</div>
+<p class="notice">قد تختلف الأسعار والتوفّر. سيتم تأكيد تفاصيل الطلب عبر واتساب. لا تُدخل معلومات طبية حساسة في الملاحظات.</p>
 </main>
+
 <footer>صيدلية التارغيت · Target Pharmacy</footer>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<div id="cartModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="cartTitle" onclick="if(event.target===this)closeCart()"><div class="panel">
-  <div class="panelhead"><h3 id="cartTitle">سلة الطلبات</h3><button type="button" class="close" onclick="closeCart()" aria-label="إغلاق السلة">إغلاق ✕</button></div>
-  <div id="cartItems"></div><div id="cartTotal" class="total">المجموع: السعر عند الطلب</div>
-  <form id="orderForm"><div class="formgrid">
-    <input id="customerName" name="customerName" autocomplete="name" placeholder="الاسم الكامل" required>
-    <input id="customerPhone" name="customerPhone" type="tel" autocomplete="tel" placeholder="رقم الهاتف" required>
-    <input id="customerArea" name="customerArea" class="full" autocomplete="street-address" placeholder="العنوان / المنطقة" required>
-    <textarea id="notes" name="notes" class="full" rows="3" placeholder="ملاحظات إضافية (اختياري)"></textarea>
-    <button id="sendOrder" class="full" type="submit">إرسال الطلب عبر واتساب</button>
-  </div></form>
-  <p class="notice">سيتم فتح واتساب برسالة جاهزة لمراجعة الطلب. لا تُدخل معلومات طبية حساسة في الملاحظات.</p>
-</div></div>
+<div id="cartModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="cartTitle" onclick="if(event.target===this)closeCart()">
+<div class="panel">
+  <div class="panelhead"><h3 id="cartTitle">سلة الطلبات</h3><button type="button" class="close" onclick="closeCart()">إغلاق ✕</button></div>
+  <div id="cartItems"></div>
+  <div id="cartTotal" class="total">المجموع: السعر عند الطلب</div>
+  <form id="orderForm">
+    <div class="formgrid">
+      <input id="customerName" name="customerName" autocomplete="name" placeholder="الاسم الكامل" required>
+      <input id="customerPhone" name="customerPhone" type="tel" autocomplete="tel" placeholder="رقم الهاتف" required>
+      <input id="customerArea" name="customerArea" class="full" autocomplete="street-address" placeholder="العنوان / المنطقة" required>
+      <textarea id="notes" name="notes" class="full" rows="3" placeholder="ملاحظات إضافية (اختياري)"></textarea>
+      <button id="sendOrder" class="full" type="submit">إرسال الطلب عبر واتساب</button>
+    </div>
+  </form>
+  <p class="notice">سيتم فتح واتساب برسالة جاهزة لمراجعة الطلب.</p>
+</div>
+</div>
+
+<div id="imageViewer" class="image-viewer" onclick="closeImageViewer()">
+  <button type="button" aria-label="إغلاق" onclick="closeImageViewer()">✕</button>
+  <img id="fullProductImage" src="" alt="صورة المنتج الكاملة" onclick="event.stopPropagation()">
+</div>
 
 <script>
 'use strict';
-const SUPABASE_URL = 'https://ypyflmnbnkneoaesrdgq.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_s5vCyj0wf7FnsczSP9MxHA_0JNHJh3z';
-const WHATSAPP_NUMBER = '963989055592';
-let products = [], cart = [], categories = [], activeCategory = 'all', adminSession = null, exchangeRate = 0, toastTimer = null;
-const $ = id => document.getElementById(id);
 
-function escapeHTML(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+const SUPABASE_URL='https://ypyflmnbnkneoaesrdgq.supabase.co';
+const SUPABASE_KEY='sb_publishable_s5vCyj0wf7FnsczSP9MxHA_0JNHJh3z';
+const WHATSAPP_NUMBER='963989055592';
+
+let products=[];
+let cart=[];
+let categories=[];
+let subcategories=[];
+let activeCategory=null;
+let activeSubcategory=null;
+let adminSession=null;
+let exchangeRate=0;
+let toastTimer=null;
+
+const $=id=>document.getElementById(id);
+
+function escapeHTML(value){
+  return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function normalize(value){
+  return String(value||'').trim().replace(/\s+/g,' ').toLocaleLowerCase();
+}
+
 function setStatus(message){$('status').textContent=message;}
-function getProductPriceUsd(product){const value=Number(product.price_usd);return Number.isFinite(value)&&value>0?value:0;}
-function getProductPrice(product){const usd=getProductPriceUsd(product);if(usd>0&&exchangeRate>0)return usd*exchangeRate;const value=Number(product.price);return Number.isFinite(value)&&value>0?value:0;}
-function formatSYP(value){return Number(value).toLocaleString('en-US',{maximumFractionDigits:0})+' ل.س';}
-function formatUSD(value){return '$'+Number(value).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
-function authHeaders(){return {'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(adminSession?.access_token||SUPABASE_KEY),'Content-Type':'application/json','Accept':'application/json'};}
-async function readError(response){const body=await response.text();try{const j=JSON.parse(body);return j.message||j.msg||j.error_description||j.error||body;}catch(_){return body||('HTTP '+response.status);}}
 
-async function loadExchangeRate(){
-  try{
-    const r=await fetch(SUPABASE_URL+'/rest/v1/store_settings?id=eq.1&select=usd_to_syp',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Accept':'application/json'}});
-    if(!r.ok)throw new Error(await readError(r));
-    const rows=await r.json();exchangeRate=rows.length?Number(rows[0].usd_to_syp)||0:0;
-    $('exchangeRateStatus').textContent=exchangeRate>0?'سعر الصرف الحالي: '+formatSYP(exchangeRate)+' لكل دولار.':'لم يتم تحديد سعر الصرف بعد.';
-    if($('exchangeRateInput'))$('exchangeRateInput').value=exchangeRate||'';
-    renderProducts();updateCart();
-  }catch(err){
-    console.warn('Exchange rate could not be loaded:',err);
-    $('exchangeRateStatus').textContent='تعذّر تحميل سعر الصرف. تأكد من تنفيذ ملف إعداد قاعدة البيانات أولاً.';
-  }
-}
-async function saveExchangeRate(){
-  if(!adminSession?.access_token){alert('سجّل الدخول بحساب المدير أولاً.');return;}
-  const value=Number($('exchangeRateInput').value);if(!Number.isFinite(value)||value<=0){alert('أدخل سعر صرف صحيحاً أكبر من صفر.');return;}
-  const button=$('saveExchangeRate');button.disabled=true;button.textContent='جاري الحفظ...';
-  try{
-    const existing=await fetch(SUPABASE_URL+'/rest/v1/store_settings?id=eq.1&select=id',{headers:authHeaders()});
-    if(!existing.ok)throw new Error(await readError(existing));const rows=await existing.json();
-    const r=await fetch(SUPABASE_URL+'/rest/v1/store_settings'+(rows.length?'?id=eq.1':''),{method:rows.length?'PATCH':'POST',headers:{...authHeaders(),'Prefer':'return=representation'},body:JSON.stringify(rows.length?{usd_to_syp:value,updated_at:new Date().toISOString()}:{id:1,usd_to_syp:value,updated_at:new Date().toISOString()})});
-    if(!r.ok)throw new Error(await readError(r));exchangeRate=value;
-    $('exchangeRateStatus').textContent='تم حفظ سعر الصرف: '+formatSYP(exchangeRate)+' لكل دولار.';renderProducts();updateCart();toast('تم تحديث سعر الصرف والأسعار بنجاح');
-  }catch(err){alert('تعذّر حفظ سعر الصرف: '+String(err.message||err).slice(0,240)+'\nتأكد من تنفيذ ملف SQL المرفق وصلاحيات جدول store_settings.');}
-  finally{button.disabled=false;button.textContent='حفظ سعر الصرف';}
+function getProductPriceUsd(product){
+  const value=Number(product.price_usd);
+  return Number.isFinite(value)&&value>0?value:0;
 }
 
-async function loadProducts(){
-  setStatus('جاري الاتصال بقاعدة البيانات...');
-  await loadCategories();
+function getProductPrice(product){
+  const usd=getProductPriceUsd(product);
+  if(usd>0&&exchangeRate>0)return usd*exchangeRate;
+  const value=Number(product.price);
+  return Number.isFinite(value)&&value>0?value:0;
+}
+
+function formatSYP(value){
+  return Number(value).toLocaleString('en-US',{maximumFractionDigits:0})+' ل.س';
+}
+
+function formatUSD(value){
+  return '$'+Number(value).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function toast(message){
+  const el=$('toast');
+  el.textContent=message;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2200);
+}
+
+function authHeaders(){
+  return {
+    'apikey':SUPABASE_KEY,
+    'Authorization':'Bearer '+(adminSession?.access_token||SUPABASE_KEY),
+    'Content-Type':'application/json',
+    'Accept':'application/json'
+  };
+}
+
+async function readError(response){
+  const body=await response.text();
   try{
-    const response=await fetch(SUPABASE_URL+'/rest/v1/products?select=*&order=id.desc',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Accept':'application/json'}});
-    if(!response.ok)throw new Error('HTTP '+response.status+': '+String(await readError(response)).slice(0,160));
-    const data=await response.json();if(!Array.isArray(data))throw new Error('استجابة قاعدة البيانات ليست قائمة منتجات.');
-    products=data.filter(p=>p.is_active!==false&&String(p.is_active).toLowerCase()!=='false');
-    setStatus(products.length?'تم الاتصال بنجاح ✅ عدد المنتجات: '+products.length:'تم الاتصال بقاعدة البيانات، لكن لا توجد منتجات مفعّلة حالياً.');
-    renderCategories();renderProducts();if(adminSession)renderAdminProducts();
-  }catch(error){
-    console.error('Target Pharmacy load error:',error);setStatus('تعذّر تحميل المنتجات. '+(error.message||'تحقق من الإنترنت وصلاحيات القراءة في Supabase.'));
-    $('productCount').textContent='';$('categories').innerHTML='<button type="button" class="cat active">الكل</button>';
-    $('products').innerHTML='<div class="empty">لم نتمكن من تحميل المنتجات الآن. تحقق من اتصال الإنترنت وصلاحيات SELECT لجدول products في Supabase.</div>';
+    const j=JSON.parse(body);
+    return j.message||j.msg||j.error_description||j.error||body;
+  }catch(_){
+    return body||('HTTP '+response.status);
   }
 }
+
+/* صور الأقسام الافتراضية */
 const CATEGORY_IMAGES=[
   {keys:['بشرة','بشره','سيروم','skincare','skin'],url:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=900&q=80',emoji:'🧴'},
   {keys:['شعر','شامبو','hair'],url:'https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=900&q=80',emoji:'💇'},
   {keys:['فيتامين','مكمل','بروتين','vitamin','supplement'],url:'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=900&q=80',emoji:'💪'},
   {keys:['مكياج','تجميل','makeup','cosmetic'],url:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80',emoji:'💄'},
   {keys:['عطر','رائحة','روايح','perfume','fragrance'],url:'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=80',emoji:'🌸'},
-  {keys:['طبي','مستلزم','medical','أدوية','ادوية','دواء','medicine'],url:'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=900&q=80',emoji:'🩺'},
+  {keys:['طبي','مستلزم','medical','دواء','medicine'],url:'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=900&q=80',emoji:'🩺'},
   {keys:['أسنان','اسنان','تبييض','dental','فم'],url:'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=900&q=80',emoji:'🦷'},
-  {keys:['طفل','أم','ام','رضيع','baby','mother'],url:'https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=900&q=80',emoji:'🍼'},
-  {keys:['عناية شخصية','نظافة','personal care'],url:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=900&q=80',emoji:'🧼'}
+  {keys:['طفل','أم','ام','رضيع','baby','mother'],url:'https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=900&q=80',emoji:'🍼'}
 ];
-function categoryVisual(category){const c=String(category||'').toLocaleLowerCase();return CATEGORY_IMAGES.find(x=>x.keys.some(k=>c.includes(k)))||{url:'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80',emoji:'🛍️'};}
+
+function categoryVisual(category){
+  const c=String(category||'').toLocaleLowerCase();
+  return CATEGORY_IMAGES.find(x=>x.keys.some(k=>c.includes(k)))||
+    {url:'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=900&q=80',emoji:'🛍️'};
+}
+
+/* سعر الصرف */
+async function loadExchangeRate(){
+  try{
+    const r=await fetch(SUPABASE_URL+'/rest/v1/store_settings?id=eq.1&select=usd_to_syp',{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Accept':'application/json'}
+    });
+    if(!r.ok)throw new Error(await readError(r));
+    const rows=await r.json();
+    exchangeRate=rows.length?Number(rows[0].usd_to_syp)||0:0;
+    if($('exchangeRateStatus')){
+      $('exchangeRateStatus').textContent=exchangeRate>0?'سعر الصرف الحالي: '+formatSYP(exchangeRate)+' لكل دولار.':'لم يتم تحديد سعر الصرف بعد.';
+      $('exchangeRateInput').value=exchangeRate||'';
+    }
+    renderProducts();
+    updateCart();
+  }catch(err){
+    console.warn('Exchange rate:',err);
+    if($('exchangeRateStatus'))$('exchangeRateStatus').textContent='تعذّر تحميل سعر الصرف.';
+  }
+}
+
+async function saveExchangeRate(){
+  if(!adminSession?.access_token){alert('سجّل الدخول بحساب المدير أولاً.');return;}
+  const value=Number($('exchangeRateInput').value);
+  if(!Number.isFinite(value)||value<=0){alert('أدخل سعر صرف صحيحاً أكبر من صفر.');return;}
+  const button=$('saveExchangeRate');
+  button.disabled=true;
+  button.textContent='جاري الحفظ...';
+  try{
+    const existing=await fetch(SUPABASE_URL+'/rest/v1/store_settings?id=eq.1&select=id',{headers:authHeaders()});
+    if(!existing.ok)throw new Error(await readError(existing));
+    const rows=await existing.json();
+    const r=await fetch(SUPABASE_URL+'/rest/v1/store_settings'+(rows.length?'?id=eq.1':''),{
+      method:rows.length?'PATCH':'POST',
+      headers:{...authHeaders(),'Prefer':'return=representation'},
+      body:JSON.stringify(rows.length?{usd_to_syp:value,updated_at:new Date().toISOString()}:{id:1,usd_to_syp:value,updated_at:new Date().toISOString()})
+    });
+    if(!r.ok)throw new Error(await readError(r));
+    exchangeRate=value;
+    $('exchangeRateStatus').textContent='تم حفظ سعر الصرف: '+formatSYP(value)+' لكل دولار.';
+    renderProducts();
+    updateCart();
+    toast('تم تحديث سعر الصرف والأسعار بنجاح');
+  }catch(err){
+    alert('تعذّر حفظ سعر الصرف: '+String(err.message||err).slice(0,240));
+  }finally{
+    button.disabled=false;
+    button.textContent='حفظ سعر الصرف';
+  }
+}
+
+/* تحميل الأقسام الرئيسية والفرعية */
 async function loadCategories(){
   try{
-    const r=await fetch(SUPABASE_URL+'/rest/v1/store_categories?select=id,name,image_url,is_active&order=name.asc',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(adminSession?.access_token||SUPABASE_KEY),'Accept':'application/json'}});
-    if(!r.ok)throw new Error(await readError(r));
-    const rows=await r.json();categories=rows.filter(c=>c.is_active!==false&&String(c.is_active).toLowerCase()!=='false');
-    $('categoryStatus').textContent=categories.length?'عدد الأقسام: '+categories.length:'لا توجد أقسام محفوظة بعد. أضف أول قسم من هنا.';
+    const headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(adminSession?.access_token||SUPABASE_KEY),'Accept':'application/json'};
+    const [mainResponse,subResponse]=await Promise.all([
+      fetch(SUPABASE_URL+'/rest/v1/store_categories?select=id,name,image_url,is_active&order=name.asc',{headers}),
+      fetch(SUPABASE_URL+'/rest/v1/store_subcategories?select=id,category_id,name,image_url,is_active&order=name.asc',{headers})
+    ]);
+
+    if(!mainResponse.ok)throw new Error('الأقسام الرئيسية: '+await readError(mainResponse));
+    if(!subResponse.ok)throw new Error('الأقسام الفرعية: '+await readError(subResponse));
+
+    const mainRows=await mainResponse.json();
+    const subRows=await subResponse.json();
+
+    categories=mainRows.filter(c=>c.is_active!==false&&String(c.is_active).toLowerCase()!=='false');
+    subcategories=subRows.filter(c=>c.is_active!==false&&String(c.is_active).toLowerCase()!=='false');
+
+    $('categoryStatus').textContent='عدد الأقسام الرئيسية: '+categories.length;
+    $('subcategoryStatus').textContent='عدد الأقسام الفرعية: '+subcategories.length;
   }catch(err){
-    console.warn('Category list unavailable:',err);
-    categories=[];
-    if($('categoryStatus'))$('categoryStatus').textContent='تعذّر تحميل جدول الأقسام. نفّذ ملف Target_Pharmacy_Categories.sql في Supabase ثم حدّث الصفحة.';
+    console.warn('Category loading:',err);
+    $('categoryStatus').textContent='تعذّر تحميل الأقسام الرئيسية: '+String(err.message||err).slice(0,180);
+    $('subcategoryStatus').textContent='تعذّر تحميل الأقسام الفرعية. تأكد من نجاح إعداد SQL.';
   }
-  syncProductCategorySelect();renderAdminCategories();renderCategories();
+
+  syncProductCategorySelect();
+  syncSubcategoryParentSelect();
+  syncProductSubcategorySelect();
+  renderAdminCategories();
+  renderAdminSubcategories();
+  renderCategories();
 }
+
 function syncProductCategorySelect(selectedValue){
-  const select=$('productCategory');if(!select)return;
+  const select=$('productCategory');
+  if(!select)return;
   const current=selectedValue!==undefined?String(selectedValue):String(select.value||'');
-  const names=[...new Set([...categories.map(c=>String(c.name||'').trim()),...products.map(p=>String(p.category||'').trim())].filter(Boolean))];
-  select.innerHTML='<option value="">اختر القسم *</option>'+names.map(n=>'<option value="'+escapeHTML(n)+'">'+escapeHTML(n)+'</option>').join('');
+  const names=[...new Set([
+    ...categories.map(c=>String(c.name||'').trim()),
+    ...products.map(p=>String(p.category||'').trim())
+  ].filter(Boolean))];
+
+  select.innerHTML='<option value="">اختر القسم الرئيسي *</option>'+
+    names.map(n=>'<option value="'+escapeHTML(n)+'">'+escapeHTML(n)+'</option>').join('');
+
   if(names.includes(current))select.value=current;
 }
-function renderCategories(){
-  const excludedNames = [
-    'الكل',
-    'جميع المنتجات',
-    'كل المنتجات'
-  ];
 
-  const normalizeName = name =>
-    String(name || '').trim().replace(/\s+/g, ' ').toLowerCase();
-
-  const cats = categories.length
-    ? categories
-        .map(c => ({
-          name: String(c.name || '').trim(),
-          image_url: c.image_url || ''
-        }))
-        .filter(c => c.name && !excludedNames.some(
-          name => normalizeName(name) === normalizeName(c.name)
-        ))
-    : [
-        ...new Set(
-          products
-            .map(p => String(p.category || '').trim())
-            .filter(c => c && !excludedNames.some(
-              name => normalizeName(name) === normalizeName(c)
-            ))
-        )
-      ].map(name => ({
-        name,
-        image_url: ''
-      }));
-
-  const container = $('categories');
-  container.innerHTML = '';
-
-  const add = (label, value, visual) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'cat' + (activeCategory === value ? ' active' : '');
-    b.dataset.category = String(value);
-    b.setAttribute('aria-label', 'عرض ' + label);
-    b.setAttribute(
-      'aria-pressed',
-      activeCategory === value ? 'true' : 'false'
-    );
-
-    const img = document.createElement('img');
-    img.src = visual.url;
-    img.alt = '';
-    img.loading = 'lazy';
-
-    img.onerror = function(){
-      this.style.display = 'none';
-    };
-
-    const span = document.createElement('span');
-    span.textContent = label;
-
-    b.append(img, span);
-    container.appendChild(b);
-  };
-
-  cats.forEach(c => {
-    add(
-      c.name,
-      c.name,
-      c.image_url
-        ? { url: c.image_url }
-        : categoryVisual(c.name)
-    );
-  });
+function syncSubcategoryParentSelect(selectedValue){
+  const select=$('subcategoryParent');
+  if(!select)return;
+  const current=selectedValue!==undefined?String(selectedValue):String(select.value||'');
+  select.innerHTML='<option value="">اختر القسم الرئيسي *</option>'+
+    categories.map(c=>'<option value="'+Number(c.id)+'">'+escapeHTML(c.name)+'</option>').join('');
+  if(categories.some(c=>String(c.id)===current))select.value=current;
 }
-$('categories').addEventListener('click', function(event){
-  const button = event.target.closest('button.cat');
-  if (!button) return;
-  event.preventDefault();
-  setCategory(button.dataset.category);
-});
- $('categories').addEventListener('click', function(event){
-  const button = event.target.closest('button.cat');
-  if (!button) return;
 
-  event.preventDefault();
-  setCategory(button.dataset.category);
-});
-  function setCategory(value){
-  activeCategory = String(value || 'all');
+function syncProductSubcategorySelect(mainName,selectedId){
+  const select=$('productSubcategory');
+  if(!select)return;
 
-  const categoriesBox = $('categories');
-  if (categoriesBox) {
-    categoriesBox.style.display = '';
+  const name=mainName!==undefined?String(mainName):String($('productCategory')?.value||'');
+  const parent=categories.find(c=>normalize(c.name)===normalize(name));
+  const current=selectedId!==undefined?String(selectedId):String(select.value||'');
+
+  const list=parent?subcategories.filter(s=>String(s.category_id)===String(parent.id)):[];
+  select.innerHTML='<option value="">بدون قسم فرعي</option>'+
+    list.map(s=>'<option value="'+Number(s.id)+'">'+escapeHTML(s.name)+'</option>').join('');
+
+  if(list.some(s=>String(s.id)===current))select.value=current;
+}
+
+$('productCategory').addEventListener('change',()=>{
+  syncProductSubcategorySelect($('productCategory').value,'');
+});
+
+/* عرض الأقسام في المتجر */
+function createCategoryTile(label,type,value,visual){
+  const b=document.createElement('button');
+  b.type='button';
+  b.className='cat'+(type==='sub'?' subcat':'')+(type==='back'?' back-cat':'');
+  b.dataset.type=type;
+  b.dataset.value=String(value??'');
+  b.setAttribute('aria-label',label);
+
+  if(visual?.url){
+    const img=document.createElement('img');
+    img.src=visual.url;
+    img.alt='';
+    img.loading='lazy';
+    img.onerror=function(){this.style.display='none';};
+    b.appendChild(img);
+  }
+
+  const span=document.createElement('span');
+  span.textContent=label;
+  b.appendChild(span);
+  return b;
+}
+
+function renderCategories(){
+  const container=$('categories');
+  container.innerHTML='';
+
+  if(!activeCategory){
+    $('categoryHeading').textContent='تسوّق حسب القسم';
+
+    categories.forEach(c=>{
+      const visual=c.image_url?{url:c.image_url}:categoryVisual(c.name);
+      container.appendChild(createCategoryTile(c.name,'main',c.id,visual));
+    });
+
+    if(!categories.length){
+      container.innerHTML='<div class="empty">لا توجد أقسام رئيسية متاحة حالياً.</div>';
+    }
+    return;
+  }
+
+  const parent=categories.find(c=>String(c.id)===String(activeCategory));
+  if(!parent){
+    activeCategory=null;
+    activeSubcategory=null;
+    renderCategories();
+    return;
+  }
+
+  $('categoryHeading').textContent=parent.name;
+
+  container.appendChild(createCategoryTile('رجوع إلى الأقسام الرئيسية','back','',null));
+
+  const children=subcategories.filter(s=>String(s.category_id)===String(parent.id));
+
+  children.forEach(s=>{
+    const visual=s.image_url?{url:s.image_url}:categoryVisual(s.name);
+    container.appendChild(createCategoryTile(s.name,'sub',s.id,visual));
+  });
+
+  const unassigned=products.some(p=>
+    normalize(p.category)===normalize(parent.name)&&!p.subcategory_id
+  );
+
+  if(children.length&&unassigned){
+    container.appendChild(createCategoryTile('منتجات أخرى','unassigned','uncategorized',categoryVisual('منتجات أخرى')));
+  }
+
+  if(!children.length){
+    const info=document.createElement('div');
+    info.className='empty';
+    info.textContent='لا توجد أقسام فرعية لهذا القسم حالياً. تظهر المنتجات الموجودة تحته بالأسفل.';
+    container.appendChild(info);
+  }
+}
+
+$('categories').addEventListener('click',event=>{
+  const button=event.target.closest('button.cat');
+  if(!button)return;
+  event.preventDefault();
+
+  const type=button.dataset.type;
+  const value=button.dataset.value;
+
+  if(type==='main'){
+    activeCategory=value;
+    activeSubcategory=null;
+  }else if(type==='sub'){
+    activeSubcategory=value;
+  }else if(type==='unassigned'){
+    activeSubcategory='uncategorized';
+  }else if(type==='back'){
+    activeCategory=null;
+    activeSubcategory=null;
   }
 
   renderCategories();
   renderProducts();
 
-  $('products').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-}
-function resetCategoryForm(){if(!$('categoryForm'))return;$('categoryForm').reset();$('editCategoryId').value='';$('saveCategory').textContent='إضافة القسم';}
-function editCategory(id){const c=categories.find(x=>String(x.id)===String(id));if(!c)return;$('editCategoryId').value=c.id;$('categoryName').value=c.name||'';$('categoryImageUrl').value=c.image_url||'';$('saveCategory').textContent='حفظ تعديلات القسم';$('categoryForm').scrollIntoView({behavior:'smooth',block:'center'});}
-function renderAdminCategories(){
-  const container=$('adminCategories');if(!container||!adminSession)return;
-  if(!categories.length){container.innerHTML='<div class="empty">لا توجد أقسام محفوظة بعد.</div>';return;}
-  container.innerHTML=categories.map(c=>'<div class="cartitem"><div style="display:flex;align-items:center;gap:10px;min-width:0">'+(c.image_url?'<img src="'+escapeHTML(c.image_url)+'" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:10px;background:#fff">':'<span style="font-size:26px">🗂️</span>')+'<strong>'+escapeHTML(c.name)+'</strong></div><div class="admin-tools"><button type="button" class="small" onclick="editCategory('+Number(c.id)+')">تعديل</button><button type="button" class="danger small" onclick="deleteCategory('+Number(c.id)+')">حذف</button></div></div>').join('');
-}
-$('categoryForm').addEventListener('submit',async e=>{
-  e.preventDefault();if(!adminSession?.access_token){alert('سجّل الدخول بحساب المدير أولاً.');return;}
-  const id=$('editCategoryId').value,name=$('categoryName').value.trim();let image_url=$('categoryImageUrl').value.trim()||null;const file=$('categoryImageFile').files&&$('categoryImageFile').files[0];
-  if(!name){alert('اكتب اسم القسم.');return;}
-  const b=$('saveCategory');b.disabled=true;b.textContent='جاري الحفظ...';
-  try{
-    if(file)image_url=await uploadImageFile(file,'categoryStatus');
-    const url=SUPABASE_URL+'/rest/v1/store_categories'+(id?'?id=eq.'+encodeURIComponent(id):'');
-    const r=await fetch(url,{method:id?'PATCH':'POST',headers:{...authHeaders(),'Prefer':'return=representation'},body:JSON.stringify({name,image_url,is_active:true})});
-    if(!r.ok)throw new Error(await readError(r));
-    resetCategoryForm();await loadCategories();syncProductCategorySelect(name);toast(id?'تم تعديل القسم بنجاح':'تمت إضافة القسم بنجاح');
-  }catch(err){alert('تعذّر حفظ القسم: '+String(err.message||err).slice(0,240)+'\nتأكد من تنفيذ Target_Pharmacy_Categories.sql وصلاحيات المدير.');}
-  finally{b.disabled=false;b.textContent=$('editCategoryId').value?'حفظ تعديلات القسم':'إضافة القسم';}
+  if(type!=='back'){
+    $('products').scrollIntoView({behavior:'smooth',block:'start'});
+  }
 });
-async function deleteCategory(id){
-  const c=categories.find(x=>String(x.id)===String(id));if(!c)return;
-  if(products.some(p=>String(p.category||'')===String(c.name))){alert('لا يمكن حذف هذا القسم لأنه يحتوي على منتجات. انقل المنتجات إلى قسم آخر أولاً.');return;}
-  if(!confirm('هل تريد حذف القسم «'+c.name+'»؟'))return;
-  try{const r=await fetch(SUPABASE_URL+'/rest/v1/store_categories?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{...authHeaders(),'Prefer':'return=minimal'}});if(!r.ok)throw new Error(await readError(r));await loadCategories();toast('تم حذف القسم');}
-  catch(err){alert('تعذّر حذف القسم: '+String(err.message||err).slice(0,220));}
+
+function setCategory(value){
+  activeCategory=String(value||'');
+  activeSubcategory=null;
+  renderCategories();
+  renderProducts();
 }
+
 function renderProducts(){
-  const term=($('search').value||'').trim().toLocaleLowerCase();
-  const normalizeCategory=value=>String(value||'').trim().replace(/\s+/g,' ').toLocaleLowerCase();
-  const list=products.filter(p=>(activeCategory==='all'||normalizeCategory(p.category)===normalizeCategory(activeCategory))&&[p.name,p.description,p.category,p.company].some(v=>String(v||'').toLocaleLowerCase().includes(term)));
+  const term=normalize($('search').value);
+  let list=[];
+
+  if(term){
+    list=products.filter(p=>
+      [p.name,p.description,p.category,p.company].some(v=>normalize(v).includes(term))
+    );
+  }else if(!activeCategory){
+    list=[];
+  }else{
+    const parent=categories.find(c=>String(c.id)===String(activeCategory));
+
+    if(activeSubcategory==='uncategorized'){
+      list=products.filter(p=>
+        normalize(p.category)===normalize(parent?.name)&&!p.subcategory_id
+      );
+    }else if(activeSubcategory){
+      list=products.filter(p=>String(p.subcategory_id)===String(activeSubcategory));
+    }else{
+      const children=subcategories.filter(s=>String(s.category_id)===String(activeCategory));
+      if(!children.length){
+        list=products.filter(p=>normalize(p.category)===normalize(parent?.name));
+      }
+    }
+  }
+
   $('productCount').textContent=list.length+' منتج';
-  if(!list.length){$('products').innerHTML='<div class="empty">لا توجد منتجات مطابقة حالياً.</div>';return;}
+
+  if(!list.length){
+    let message='لا توجد منتجات مطابقة حالياً.';
+    if(term)message='لم نعثر على منتجات مطابقة لبحثك.';
+    else if(!activeCategory)message='اختر أحد الأقسام الرئيسية لعرض الأقسام الفرعية والمنتجات.';
+    else if(activeCategory&&!activeSubcategory&&subcategories.some(s=>String(s.category_id)===String(activeCategory)))message='اختر قسماً فرعياً لعرض منتجاته.';
+    $('products').innerHTML='<div class="empty">'+message+'</div>';
+    return;
+  }
+
   $('products').innerHTML=list.map(p=>{
-    const id=Number(p.id),name=escapeHTML(p.name||'منتج'),description=escapeHTML(p.description||p.category||'منتج من صيدلية التارغيت'),pv=getProductPrice(p),usd=getProductPriceUsd(p),imageUrl=String(p.image_url||'').trim();
-    const price=pv?formatSYP(pv):'السعر عند الطلب',usdLine=usd?'<div class="desc" style="color:#1769aa">'+formatUSD(usd)+'</div>':'';
+    const id=Number(p.id);
+    const name=escapeHTML(p.name||'منتج');
+    const description=escapeHTML(p.description||p.category||'منتج من صيدلية التارغيت');
+    const pv=getProductPrice(p);
+    const usd=getProductPriceUsd(p);
+    const imageUrl=String(p.image_url||'').trim();
+    const price=pv?formatSYP(pv):'السعر عند الطلب';
+    const usdLine=usd?'<div class="desc" style="color:#1769aa">'+formatUSD(usd)+'</div>':'';
     const image=imageUrl?'<img src="'+escapeHTML(imageUrl)+'" alt="'+name+'" loading="lazy" onerror="this.style.display=\'none\'">':'🧴';
-    return '<article class="card"><div class="pic">'+image+'</div><h4>'+name+'</h4><div class="desc">'+description+'</div><div class="price">'+price+'</div>'+usdLine+'<button type="button" onclick="addToCart('+id+',this)">أضف إلى السلة</button></article>';
+
+    return '<article class="card">'+
+      '<div class="pic">'+image+'</div>'+
+      '<h4>'+name+'</h4>'+
+      '<div class="desc">'+description+'</div>'+
+      '<div class="price">'+price+'</div>'+
+      usdLine+
+      '<button type="button" onclick="addToCart('+id+',this)">أضف إلى السلة</button>'+
+    '</article>';
   }).join('');
 }
-function addToCart(id,button){const p=products.find(x=>Number(x.id)===Number(id));if(!p)return;const f=cart.find(x=>Number(x.id)===Number(id));if(f)f.qty++;else cart.push({...p,qty:1});updateCart();toast('تمت إضافة '+(p.name||'المنتج')+' إلى السلة ✓');const cartButton=document.querySelector('.top button:last-child');if(cartButton){cartButton.classList.remove('cart-bump');void cartButton.offsetWidth;cartButton.classList.add('cart-bump');}if(button){const rect=button.getBoundingClientRect(),target=cartButton?.getBoundingClientRect();if(target){const dot=document.createElement('span');dot.className='cart-fly';dot.style.left=(rect.left+rect.width/2)+'px';dot.style.top=(rect.top+rect.height/2)+'px';document.body.appendChild(dot);requestAnimationFrame(()=>{dot.style.transform='translate('+(target.left+target.width/2-rect.left-rect.width/2)+'px,'+(target.top+target.height/2-rect.top-rect.height/2)+'px) scale(.35)';dot.style.opacity='0';});setTimeout(()=>dot.remove(),650);}}}
-function changeQty(id,delta){const p=cart.find(x=>Number(x.id)===Number(id));if(!p)return;p.qty+=delta;if(p.qty<=0)cart=cart.filter(x=>Number(x.id)!==Number(id));updateCart();}
+
+/* إدارة الأقسام الرئيسية */
+function resetCategoryForm(){
+  $('categoryForm').reset();
+  $('editCategoryId').value='';
+  $('saveCategory').textContent='إضافة القسم';
+}
+
+function editCategory(id){
+  const c=categories.find(x=>String(x.id)===String(id));
+  if(!c)return;
+  $('editCategoryId').value=c.id;
+  $('categoryName').value=c.name||'';
+  $('categoryImageUrl').value=c.image_url||'';
+  $('saveCategory').textContent='حفظ تعديلات القسم';
+  $('categoryForm').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function renderAdminCategories(){
+  const container=$('adminCategories');
+  if(!container||!adminSession)return;
+
+  if(!categories.length){
+    container.innerHTML='<div class="empty">لا توجد أقسام محفوظة بعد.</div>';
+    return;
+  }
+
+  container.innerHTML=categories.map(c=>
+    '<div class="cartitem">'+
+      '<div style="display:flex;align-items:center;gap:10px;min-width:0">'+
+        (c.image_url?'<img src="'+escapeHTML(c.image_url)+'" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:10px;background:#fff">':'<span style="font-size:26px">🗂️</span>')+
+        '<strong>'+escapeHTML(c.name)+'</strong>'+
+      '</div>'+
+      '<div class="admin-tools">'+
+        '<button type="button" class="small" onclick="editCategory('+Number(c.id)+')">تعديل</button>'+
+        '<button type="button" class="danger small" onclick="deleteCategory('+Number(c.id)+')">حذف</button>'+
+      '</div>'+
+    '</div>'
+  ).join('');
+}
+
+$('categoryForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!adminSession?.access_token){alert('سجّل الدخول أولاً.');return;}
+
+  const id=$('editCategoryId').value;
+  const name=$('categoryName').value.trim();
+  let image_url=$('categoryImageUrl').value.trim()||null;
+  const file=$('categoryImageFile').files?.[0];
+
+  if(!name){alert('اكتب اسم القسم.');return;}
+
+  const b=$('saveCategory');
+  b.disabled=true;
+  b.textContent='جاري الحفظ...';
+
+  try{
+    if(file)image_url=await uploadImageFile(file,'categoryStatus');
+
+    const url=SUPABASE_URL+'/rest/v1/store_categories'+(id?'?id=eq.'+encodeURIComponent(id):'');
+    const r=await fetch(url,{
+      method:id?'PATCH':'POST',
+      headers:{...authHeaders(),'Prefer':'return=representation'},
+      body:JSON.stringify({name,image_url,is_active:true})
+    });
+
+    if(!r.ok)throw new Error(await readError(r));
+
+    resetCategoryForm();
+    await loadCategories();
+    toast(id?'تم تعديل القسم بنجاح':'تمت إضافة القسم بنجاح');
+  }catch(err){
+    alert('تعذّر حفظ القسم: '+String(err.message||err).slice(0,240));
+  }finally{
+    b.disabled=false;
+    b.textContent=$('editCategoryId').value?'حفظ تعديلات القسم':'إضافة القسم';
+  }
+});
+
+async function deleteCategory(id){
+  const c=categories.find(x=>String(x.id)===String(id));
+  if(!c)return;
+
+  if(products.some(p=>normalize(p.category)===normalize(c.name))){
+    alert('لا يمكن حذف هذا القسم لأنه يحتوي على منتجات. انقل المنتجات إلى قسم آخر أولاً.');
+    return;
+  }
+
+  if(!confirm('هل تريد حذف القسم «'+c.name+'»؟ سيتم حذف الأقسام الفرعية التابعة له أيضاً.'))return;
+
+  try{
+    const r=await fetch(SUPABASE_URL+'/rest/v1/store_categories?id=eq.'+encodeURIComponent(id),{
+      method:'DELETE',
+      headers:{...authHeaders(),'Prefer':'return=minimal'}
+    });
+    if(!r.ok)throw new Error(await readError(r));
+    await loadCategories();
+    toast('تم حذف القسم');
+  }catch(err){
+    alert('تعذّر حذف القسم: '+String(err.message||err).slice(0,220));
+  }
+}
+
+/* إدارة الأقسام الفرعية */
+function resetSubcategoryForm(){
+  $('subcategoryForm').reset();
+  $('editSubcategoryId').value='';
+  $('saveSubcategory').textContent='إضافة القسم الفرعي';
+  syncSubcategoryParentSelect('');
+}
+
+function editSubcategory(id){
+  const s=subcategories.find(x=>String(x.id)===String(id));
+  if(!s)return;
+
+  $('editSubcategoryId').value=s.id;
+  $('subcategoryParent').value=String(s.category_id);
+  $('subcategoryName').value=s.name||'';
+  $('subcategoryImageUrl').value=s.image_url||'';
+  $('saveSubcategory').textContent='حفظ تعديلات القسم الفرعي';
+  $('subcategoryForm').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function renderAdminSubcategories(){
+  const container=$('adminSubcategories');
+  if(!container||!adminSession)return;
+
+  if(!subcategories.length){
+    container.innerHTML='<div class="empty">لا توجد أقسام فرعية بعد. أضف أول قسم فرعي من النموذج أعلاه.</div>';
+    return;
+  }
+
+  container.innerHTML=subcategories.map(s=>{
+    const parent=categories.find(c=>String(c.id)===String(s.category_id));
+    return '<div class="cartitem">'+
+      '<div style="display:flex;align-items:center;gap:10px;min-width:0">'+
+        (s.image_url?'<img src="'+escapeHTML(s.image_url)+'" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:10px;background:#fff">':'<span style="font-size:25px">📁</span>')+
+        '<div><strong>'+escapeHTML(s.name)+'</strong><div class="desc">القسم الرئيسي: '+escapeHTML(parent?.name||'غير معروف')+'</div></div>'+
+      '</div>'+
+      '<div class="admin-tools">'+
+        '<button type="button" class="small" onclick="editSubcategory('+Number(s.id)+')">تعديل</button>'+
+        '<button type="button" class="danger small" onclick="deleteSubcategory('+Number(s.id)+')">حذف</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+$('subcategoryForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!adminSession?.access_token){alert('سجّل الدخول أولاً.');return;}
+
+  const id=$('editSubcategoryId').value;
+  const category_id=Number($('subcategoryParent').value);
+  const name=$('subcategoryName').value.trim();
+  let image_url=$('subcategoryImageUrl').value.trim()||null;
+  const file=$('subcategoryImageFile').files?.[0];
+
+  if(!category_id||!name){alert('اختر القسم الرئيسي واكتب اسم القسم الفرعي.');return;}
+
+  const b=$('saveSubcategory');
+  b.disabled=true;
+  b.textContent='جاري الحفظ...';
+
+  try{
+    if(file)image_url=await uploadImageFile(file,'subcategoryStatus');
+
+    const url=SUPABASE_URL+'/rest/v1/store_subcategories'+(id?'?id=eq.'+encodeURIComponent(id):'');
+    const r=await fetch(url,{
+      method:id?'PATCH':'POST',
+      headers:{...authHeaders(),'Prefer':'return=representation'},
+      body:JSON.stringify({category_id,name,image_url,is_active:true})
+    });
+
+    if(!r.ok)throw new Error(await readError(r));
+
+    resetSubcategoryForm();
+    await loadCategories();
+    renderProducts();
+    toast(id?'تم تعديل القسم الفرعي':'تمت إضافة القسم الفرعي بنجاح');
+  }catch(err){
+    alert('تعذّر حفظ القسم الفرعي: '+String(err.message||err).slice(0,260));
+  }finally{
+    b.disabled=false;
+    b.textContent=$('editSubcategoryId').value?'حفظ تعديلات القسم الفرعي':'إضافة القسم الفرعي';
+  }
+});
+
+async function deleteSubcategory(id){
+  const s=subcategories.find(x=>String(x.id)===String(id));
+  if(!s)return;
+
+  if(!confirm('هل تريد حذف القسم الفرعي «'+s.name+'»؟ المنتجات التابعة له ستبقى ضمن القسم الرئيسي.'))return;
+
+  try{
+    const r=await fetch(SUPABASE_URL+'/rest/v1/store_subcategories?id=eq.'+encodeURIComponent(id),{
+      method:'DELETE',
+      headers:{...authHeaders(),'Prefer':'return=minimal'}
+    });
+    if(!r.ok)throw new Error(await readError(r));
+
+    await loadCategories();
+    await loadProducts();
+    toast('تم حذف القسم الفرعي');
+  }catch(err){
+    alert('تعذّر حذف القسم الفرعي: '+String(err.message||err).slice(0,240));
+  }
+}
+
+/* تحميل المنتجات */
+async function loadProducts(){
+  setStatus('جاري الاتصال بقاعدة البيانات...');
+  await loadCategories();
+
+  try{
+    const response=await fetch(SUPABASE_URL+'/rest/v1/products?select=*&order=id.desc',{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Accept':'application/json'}
+    });
+
+    if(!response.ok)throw new Error('HTTP '+response.status+': '+String(await readError(response)).slice(0,160));
+
+    const data=await response.json();
+    if(!Array.isArray(data))throw new Error('استجابة قاعدة البيانات ليست قائمة منتجات.');
+
+    products=data.filter(p=>p.is_active!==false&&String(p.is_active).toLowerCase()!=='false');
+
+    setStatus(products.length?'تم الاتصال بنجاح ✅ عدد المنتجات: '+products.length:'تم الاتصال بقاعدة البيانات، لكن لا توجد منتجات مفعّلة حالياً.');
+
+    renderCategories();
+    renderProducts();
+
+    if(adminSession)renderAdminProducts();
+  }catch(error){
+    console.error('Target Pharmacy load error:',error);
+    setStatus('تعذّر تحميل المنتجات. '+(error.message||'تحقق من الإنترنت وصلاحيات القراءة.'));
+    $('productCount').textContent='';
+    $('products').innerHTML='<div class="empty">لم نتمكن من تحميل المنتجات الآن. تحقق من اتصال الإنترنت وصلاحيات SELECT لجدول products في Supabase.</div>';
+  }
+}
+
+/* السلة */
+function addToCart(id,button){
+  const p=products.find(x=>Number(x.id)===Number(id));
+  if(!p)return;
+
+  const f=cart.find(x=>Number(x.id)===Number(id));
+  if(f)f.qty++;
+  else cart.push({...p,qty:1});
+
+  updateCart();
+  toast('تمت إضافة '+(p.name||'المنتج')+' إلى السلة ✓');
+
+  const cartButton=document.querySelector('.top button:last-child');
+
+  if(cartButton){
+    cartButton.classList.remove('cart-bump');
+    void cartButton.offsetWidth;
+    cartButton.classList.add('cart-bump');
+  }
+
+  if(button){
+    const rect=button.getBoundingClientRect();
+    const target=cartButton?.getBoundingClientRect();
+
+    if(target){
+      const dot=document.createElement('span');
+      dot.className='cart-fly';
+      dot.style.left=(rect.left+rect.width/2)+'px';
+      dot.style.top=(rect.top+rect.height/2)+'px';
+      document.body.appendChild(dot);
+
+      requestAnimationFrame(()=>{
+        dot.style.transform='translate('+(target.left+target.width/2-rect.left-rect.width/2)+'px,'+(target.top+target.height/2-rect.top-rect.height/2)+'px) scale(.35)';
+        dot.style.opacity='0';
+      });
+
+      setTimeout(()=>dot.remove(),650);
+    }
+  }
+}
+
+function changeQty(id,delta){
+  const p=cart.find(x=>Number(x.id)===Number(id));
+  if(!p)return;
+  p.qty+=delta;
+  if(p.qty<=0)cart=cart.filter(x=>Number(x.id)!==Number(id));
+  updateCart();
+}
+
 function updateCart(){
   $('cartCount').textContent=cart.reduce((n,p)=>n+p.qty,0);
-  if(!cart.length)$('cartItems').innerHTML='<div class="empty">السلة فارغة. أضف المنتجات التي تريد طلبها.</div>';
-  else $('cartItems').innerHTML=cart.map(p=>{const pv=getProductPrice(p),price=pv?formatSYP(pv)+' للقطعة':'السعر عند الطلب',image=p.image_url?'<img src="'+escapeHTML(p.image_url)+'" alt="" style="width:48px;height:48px;object-fit:contain;background:#fff;border:1px solid #eee;border-radius:8px">':'';return '<div class="cartitem"><div style="display:flex;align-items:center;gap:9px;min-width:0">'+image+'<div><strong>'+escapeHTML(p.name||'منتج')+'</strong><div class="desc">'+price+'</div></div></div><div class="cartitem-actions"><button type="button" aria-label="تقليل الكمية" onclick="changeQty('+Number(p.id)+',-1)">−</button><strong>'+p.qty+'</strong><button type="button" aria-label="زيادة الكمية" onclick="changeQty('+Number(p.id)+',1)">+</button></div></div>';}).join('');
-  const total=cart.reduce((n,p)=>n+getProductPrice(p)*p.qty,0);$('cartTotal').textContent='المجموع: '+(total?formatSYP(total):'السعر عند الطلب');$('sendOrder').disabled=!cart.length;
-}
-function openCart(){$('cartModal').classList.add('open');updateCart();document.body.style.overflow='hidden';}
-function closeCart(){$('cartModal').classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCart();closeAdmin();}});
-$('search').addEventListener('input',renderProducts);
 
-$('orderForm').addEventListener('submit',event=>{
-  event.preventDefault();if(!cart.length){alert('السلة فارغة، أضف منتجاً أولاً.');return;}
-  const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),area=$('customerArea').value.trim();
-  if(!name||!phone||!area){alert('يرجى تعبئة الاسم ورقم الهاتف والعنوان.');return;}
-  const lines=cart.map(p=>{const price=getProductPrice(p),usd=getProductPriceUsd(p);const parts=['• '+(p.name||'منتج')+' × '+p.qty+' — '+(price?formatSYP(price*p.qty):'السعر عند الطلب')];if(usd)parts.push('  سعر الدولار: '+formatUSD(usd));if(p.image_url)parts.push('  صورة المنتج: '+p.image_url);return parts.join('\n');});
+  if(!cart.length){
+    $('cartItems').innerHTML='<div class="empty">السلة فارغة. أضف المنتجات التي تريد طلبها.</div>';
+  }else{
+    $('cartItems').innerHTML=cart.map(p=>{
+      const pv=getProductPrice(p);
+      const price=pv?formatSYP(pv)+' للقطعة':'السعر عند الطلب';
+      const image=p.image_url?'<img src="'+escapeHTML(p.image_url)+'" alt="" style="width:48px;height:48px;object-fit:contain;background:#fff;border:1px solid #eee;border-radius:8px">':'';
+
+      return '<div class="cartitem">'+
+        '<div style="display:flex;align-items:center;gap:9px;min-width:0">'+image+
+          '<div><strong>'+escapeHTML(p.name||'منتج')+'</strong><div class="desc">'+price+'</div></div>'+
+        '</div>'+
+        '<div class="cartitem-actions">'+
+          '<button type="button" aria-label="تقليل الكمية" onclick="changeQty('+Number(p.id)+',-1)">−</button>'+
+          '<strong>'+p.qty+'</strong>'+
+          '<button type="button" aria-label="زيادة الكمية" onclick="changeQty('+Number(p.id)+',1)">+</button>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+
   const total=cart.reduce((n,p)=>n+getProductPrice(p)*p.qty,0);
-  const message=['طلب جديد من متجر صيدلية التارغيت','الاسم: '+name,'الهاتف: '+phone,'العنوان: '+area,'سعر الصرف: '+(exchangeRate>0?formatSYP(exchangeRate)+' لكل دولار':'غير محدد'),'المنتجات:',...lines,'المجموع: '+(total?formatSYP(total):'السعر عند الطلب'),'ملاحظات: '+($('notes').value.trim()||'لا يوجد')].join('\n');
+  $('cartTotal').textContent='المجموع: '+(total?formatSYP(total):'السعر عند الطلب');
+  $('sendOrder').disabled=!cart.length;
+}
+
+function openCart(){
+  $('cartModal').classList.add('open');
+  updateCart();
+  document.body.style.overflow='hidden';
+}
+
+function closeCart(){
+  $('cartModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* الطلب عبر واتساب */
+$('orderForm').addEventListener('submit',event=>{
+  event.preventDefault();
+
+  if(!cart.length){alert('السلة فارغة، أضف منتجاً أولاً.');return;}
+
+  const name=$('customerName').value.trim();
+  const phone=$('customerPhone').value.trim();
+  const area=$('customerArea').value.trim();
+
+  if(!name||!phone||!area){
+    alert('يرجى تعبئة الاسم ورقم الهاتف والعنوان.');
+    return;
+  }
+
+  const lines=cart.map(p=>{
+    const price=getProductPrice(p);
+    const usd=getProductPriceUsd(p);
+    const parts=['• '+(p.name||'منتج')+' × '+p.qty+' — '+(price?formatSYP(price*p.qty):'السعر عند الطلب')];
+    if(usd)parts.push('  سعر الدولار: '+formatUSD(usd));
+    if(p.image_url)parts.push('  صورة المنتج: '+p.image_url);
+    return parts.join('\n');
+  });
+
+  const total=cart.reduce((n,p)=>n+getProductPrice(p)*p.qty,0);
+
+  const message=[
+    'طلب جديد من متجر صيدلية التارغيت',
+    'الاسم: '+name,
+    'الهاتف: '+phone,
+    'العنوان: '+area,
+    'سعر الصرف: '+(exchangeRate>0?formatSYP(exchangeRate)+' لكل دولار':'غير محدد'),
+    'المنتجات:',
+    ...lines,
+    'المجموع: '+(total?formatSYP(total):'السعر عند الطلب'),
+    'ملاحظات: '+($('notes').value.trim()||'لا يوجد')
+  ].join('\n');
+
   const url='https://api.whatsapp.com/send?phone='+WHATSAPP_NUMBER+'&text='+encodeURIComponent(message);
-  const w=window.open(url,'_blank','noopener');if(!w)window.location.href=url;
-  const b=$('sendOrder');b.disabled=true;b.textContent='جاري فتح واتساب...';window.setTimeout(()=>{b.disabled=!cart.length;b.textContent='إرسال الطلب عبر واتساب';},2500);
+  const w=window.open(url,'_blank','noopener');
+  if(!w)window.location.href=url;
+
+  const b=$('sendOrder');
+  b.disabled=true;
+  b.textContent='جاري فتح واتساب...';
+  window.setTimeout(()=>{
+    b.disabled=!cart.length;
+    b.textContent='إرسال الطلب عبر واتساب';
+  },2500);
 });
 
-function openAdmin(){$('adminBox').classList.add('open');$('adminBox').scrollIntoView({behavior:'smooth',block:'start'});}
-function closeAdmin(){$('adminBox').classList.remove('open');}
-function setLoginStatus(msg){$('loginStatus').textContent=msg;}
+/* تسجيل دخول الإدارة */
+function openAdmin(){
+  $('adminBox').classList.add('open');
+  $('adminBox').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeAdmin(){
+  $('adminBox').classList.remove('open');
+}
+
+function setLoginStatus(msg){
+  $('loginStatus').textContent=msg;
+}
+
 $('loginForm').addEventListener('submit',async e=>{
-  e.preventDefault();const b=$('loginButton');b.disabled=true;b.textContent='جاري تسجيل الدخول...';setLoginStatus('يتم التحقق من بيانات الحساب...');
+  e.preventDefault();
+
+  const b=$('loginButton');
+  b.disabled=true;
+  b.textContent='جاري تسجيل الدخول...';
+  setLoginStatus('يتم التحقق من بيانات الحساب...');
+
   try{
-    const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({email:$('adminEmail').value.trim(),password:$('adminPassword').value})});
-    if(!r.ok)throw new Error(await readError(r));adminSession=await r.json();
+    const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({
+        email:$('adminEmail').value.trim(),
+        password:$('adminPassword').value
+      })
+    });
+
+    if(!r.ok)throw new Error(await readError(r));
+
+    adminSession=await r.json();
     if(!adminSession.access_token)throw new Error('لم يرجع تسجيل الدخول رمز جلسة صالحاً.');
-    $('adminLogin').hidden=true;$('adminPanel').hidden=false;setLoginStatus('تم تسجيل الدخول بنجاح.');resetProductForm();await loadCategories();await loadProducts();
+
+    $('adminLogin').hidden=true;
+    $('adminPanel').hidden=false;
+    setLoginStatus('تم تسجيل الدخول بنجاح.');
+
+    resetProductForm();
+    await loadCategories();
+    await loadProducts();
+    await loadExchangeRate();
+
     const test=await fetch(SUPABASE_URL+'/rest/v1/products?select=id&limit=1',{headers:authHeaders()});
-    if(!test.ok)setLoginStatus('تم تسجيل الدخول، لكن تعذّر قراءة المنتجات بحساب المدير: '+String(await readError(test)).slice(0,180));
-  }catch(err){adminSession=null;setLoginStatus('فشل تسجيل الدخول: '+String(err.message||err).slice(0,220));}
-  finally{b.disabled=false;b.textContent='تسجيل الدخول';}
+    if(!test.ok)setLoginStatus('تم تسجيل الدخول، لكن تعذّرت قراءة المنتجات بحساب المدير: '+String(await readError(test)).slice(0,180));
+  }catch(err){
+    adminSession=null;
+    setLoginStatus('فشل تسجيل الدخول: '+String(err.message||err).slice(0,220));
+  }finally{
+    b.disabled=false;
+    b.textContent='تسجيل الدخول';
+  }
 });
-function logoutAdmin(){adminSession=null;$('adminPanel').hidden=true;$('adminLogin').hidden=false;$('adminPassword').value='';setLoginStatus('تم تسجيل الخروج.');resetProductForm();}
+
+function logoutAdmin(){
+  adminSession=null;
+  $('adminPanel').hidden=true;
+  $('adminLogin').hidden=false;
+  $('adminPassword').value='';
+  setLoginStatus('تم تسجيل الخروج.');
+  resetProductForm();
+}
+
+/* رفع الصور */
 async function uploadImageFile(file,statusId){
   if(!adminSession?.access_token)throw new Error('سجّل الدخول أولاً لرفع الصورة.');
   if(!file.type.startsWith('image/'))throw new Error('الملف المختار ليس صورة.');
-  if(file.size>5*1024*1024)throw new Error('حجم الصورة أكبر من 5 ميغابايت. اختر صورة أصغر.');
+  if(file.size>5*1024*1024)throw new Error('حجم الصورة أكبر من 5 ميغابايت.');
+
   if(statusId&&$(statusId))$(statusId).textContent='جاري رفع الصورة إلى Supabase...';
+
   let tokenRole='unknown';
-  try{const parts=adminSession.access_token.split('.');if(parts.length===3){const payload=parts[1].replace(/-/g,'+').replace(/_/g,'/');tokenRole=JSON.parse(decodeURIComponent(escape(atob(payload)))).role||'unknown';}}catch(_){tokenRole='unknown';}
+  try{
+    const parts=adminSession.access_token.split('.');
+    if(parts.length===3){
+      const payload=parts[1].replace(/-/g,'+').replace(/_/g,'/');
+      tokenRole=JSON.parse(decodeURIComponent(escape(atob(payload)))).role||'unknown';
+    }
+  }catch(_){}
+
   if(tokenRole!=='authenticated')throw new Error('جلسة المدير غير صالحة لرفع الصور. سجّل الخروج ثم ادخل مجدداً.');
-  const bucket='product-images',safeName=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_'),objectPath=Date.now()+'-'+safeName;
-  const response=await fetch(SUPABASE_URL+'/storage/v1/object/'+bucket+'/'+objectPath,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+adminSession.access_token,'Content-Type':file.type,'x-upsert':'false'},body:file});
-  if(!response.ok)throw new Error('تعذّر رفع الصورة: '+String(await readError(response)).slice(0,220)+'؛ تحقق من صلاحيات Storage واسم bucket product-images.');
-  if(statusId&&$(statusId))$(statusId).textContent='تم رفع الصورة بنجاح.';
-  return SUPABASE_URL+'/storage/v1/object/public/'+bucket+'/'+objectPath;
-}
-async function uploadProductImageIfSelected(){
-  const fileInput=$('productImageFile');
-  const file=fileInput.files&&fileInput.files[0];
-  if(!file)return $('productImage').value.trim()||null;
-  if(!adminSession?.access_token)throw new Error('سجّل الدخول أولاً لرفع الصورة.');
-  if(!file.type.startsWith('image/'))throw new Error('الملف المختار ليس صورة.');
-  if(file.size>5*1024*1024)throw new Error('حجم الصورة أكبر من 5 ميغابايت. اختر صورة أصغر.');
-  $('imageUploadStatus').textContent='جاري رفع الصورة إلى Supabase...';
+
   const bucket='product-images';
   const safeName=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');
   const objectPath=Date.now()+'-'+safeName;
-  const uploadUrl=SUPABASE_URL+'/storage/v1/object/'+bucket+'/'+objectPath;
-  // تحقق تشخيصي من رمز جلسة المدير قبل رفع الصورة.
-  let tokenRole='unknown';
-  try{
-    const tokenParts=adminSession.access_token.split('.');
-    if(tokenParts.length===3){
-      const payload=tokenParts[1].replace(/-/g,'+').replace(/_/g,'/');
-      tokenRole=JSON.parse(decodeURIComponent(escape(atob(payload)))).role||'unknown';
-    }
-  }catch(_){ tokenRole='unknown'; }
-  if(tokenRole!=='authenticated'){
-    throw new Error('جلسة المدير لا تحمل دور authenticated (الدور الحالي: '+tokenRole+'). سجّل الخروج ثم ادخل مجدداً بحساب المدير في Supabase Authentication.');
-  }
-  const response=await fetch(uploadUrl,{
+
+  const response=await fetch(SUPABASE_URL+'/storage/v1/object/'+bucket+'/'+objectPath,{
     method:'POST',
     headers:{
       'apikey':SUPABASE_KEY,
@@ -445,75 +1143,203 @@ async function uploadProductImageIfSelected(){
     },
     body:file
   });
+
   if(!response.ok){
-    const detail=String(await readError(response)).slice(0,240);
-    throw new Error('تعذّر رفع الصورة (HTTP '+response.status+'): '+detail+' | تحقق من سياسة INSERT على storage.objects ودور authenticated واسم bucket product-images.');
+    throw new Error('تعذّر رفع الصورة: '+String(await readError(response)).slice(0,220)+'؛ تحقق من صلاحيات Storage واسم bucket product-images.');
   }
-  $('imageUploadStatus').textContent='تم رفع الصورة بنجاح.';
+
+  if(statusId&&$(statusId))$(statusId).textContent='تم رفع الصورة بنجاح.';
   return SUPABASE_URL+'/storage/v1/object/public/'+bucket+'/'+objectPath;
 }
-function resetProductForm(){$('productForm').reset();$('editProductId').value='';syncProductCategorySelect('');$('productActive').checked=true;$('saveProduct').textContent='حفظ المنتج';$('imageUploadStatus').textContent='رفع الصور يحتاج إعداد مساحة تخزين في Supabase مرة واحدة.';}
+
+async function uploadProductImageIfSelected(){
+  const file=$('productImageFile').files?.[0];
+  if(!file)return $('productImage').value.trim()||null;
+  $('imageUploadStatus').textContent='جاري رفع الصورة إلى Supabase...';
+  return await uploadImageFile(file,'imageUploadStatus');
+}
+
+/* نموذج المنتج */
+function resetProductForm(){
+  $('productForm').reset();
+  $('editProductId').value='';
+  syncProductCategorySelect('');
+  syncProductSubcategorySelect('', '');
+  $('productActive').checked=true;
+  $('saveProduct').textContent='حفظ المنتج';
+  $('imageUploadStatus').textContent='رفع الصور يحتاج إعداد مساحة تخزين في Supabase مرة واحدة.';
+}
+
 function editProduct(id){
-  const p=products.find(x=>String(x.id)===String(id));if(!p)return;
-  $('editProductId').value=p.id;$('productName').value=p.name||'';syncProductCategorySelect(p.category||'');$('productCategory').value=p.category||'';
-  $('productPrice').value=p.price??0;$('productPriceUsd').value=p.price_usd??'';$('productImage').value=p.image_url||'';$('productImageFile').value='';$('imageUploadStatus').textContent='الصورة الحالية: رابط محفوظ في المنتج. اختر صورة جديدة إذا أردت استبدالها.';$('productDescription').value=p.description||'';
-  $('productActive').checked=p.is_active!==false&&String(p.is_active).toLowerCase()!=='false';$('saveProduct').textContent='حفظ التعديلات';
+  const p=products.find(x=>String(x.id)===String(id));
+  if(!p)return;
+
+  $('editProductId').value=p.id;
+  $('productName').value=p.name||'';
+  syncProductCategorySelect(p.category||'');
+  $('productCategory').value=p.category||'';
+  syncProductSubcategorySelect(p.category||'',p.subcategory_id||'');
+
+  $('productPrice').value=p.price??0;
+  $('productPriceUsd').value=p.price_usd??'';
+  $('productImage').value=p.image_url||'';
+  $('productImageFile').value='';
+  $('imageUploadStatus').textContent='الصورة الحالية محفوظة في المنتج. اختر صورة جديدة إذا أردت استبدالها.';
+  $('productDescription').value=p.description||'';
+  $('productActive').checked=p.is_active!==false&&String(p.is_active).toLowerCase()!=='false';
+  $('saveProduct').textContent='حفظ التعديلات';
+
   $('productForm').scrollIntoView({behavior:'smooth',block:'start'});
 }
+
 function renderAdminProducts(){
-  if(!adminSession)return;const container=$('adminProducts');
-  if(!products.length){container.innerHTML='<div class="empty">لا توجد منتجات لعرضها حالياً.</div>';return;}
-  container.innerHTML=products.map(p=>'<div class="cartitem"><div><strong>'+escapeHTML(p.name||'منتج')+'</strong><div class="desc">رقم المنتج: '+escapeHTML(p.id)+' · '+escapeHTML(p.category||'دون قسم')+'</div></div><div class="admin-tools"><button type="button" class="small" onclick="editProduct('+Number(p.id)+')">تعديل</button><button type="button" class="danger small" onclick="deleteProduct('+Number(p.id)+')">حذف</button></div></div>').join('');
+  if(!adminSession)return;
+
+  const container=$('adminProducts');
+  if(!products.length){
+    container.innerHTML='<div class="empty">لا توجد منتجات لعرضها حالياً.</div>';
+    return;
+  }
+
+  container.innerHTML=products.map(p=>{
+    const sub=subcategories.find(s=>String(s.id)===String(p.subcategory_id));
+    return '<div class="cartitem">'+
+      '<div><strong>'+escapeHTML(p.name||'منتج')+'</strong>'+
+      '<div class="desc">رقم المنتج: '+escapeHTML(p.id)+' · '+escapeHTML(p.category||'دون قسم')+
+      (sub?' · '+escapeHTML(sub.name):'')+'</div></div>'+
+      '<div class="admin-tools">'+
+      '<button type="button" class="small" onclick="editProduct('+Number(p.id)+')">تعديل</button>'+
+      '<button type="button" class="danger small" onclick="deleteProduct('+Number(p.id)+')">حذف</button>'+
+      '</div></div>';
+  }).join('');
 }
+
 $('productForm').addEventListener('submit',async e=>{
-  e.preventDefault();if(!adminSession?.access_token){alert('سجّل الدخول أولاً.');return;}
+  e.preventDefault();
+
+  if(!adminSession?.access_token){alert('سجّل الدخول أولاً.');return;}
+
   const id=$('editProductId').value;
   const priceRaw=$('productPrice').value;
-  const b=$('saveProduct');b.disabled=true;b.textContent='جاري الحفظ...';
+  const b=$('saveProduct');
+
+  b.disabled=true;
+  b.textContent='جاري الحفظ...';
+
   let imageUrl;
-  try{imageUrl=await uploadProductImageIfSelected();}catch(err){alert(String(err.message||err));b.disabled=false;b.textContent=id?'حفظ التعديلات':'حفظ المنتج';return;}
-  const usdRaw=$('productPriceUsd').value;const priceUsd=usdRaw===''?null:Number(usdRaw);const enteredSyp=priceRaw===''?0:Number(priceRaw);const payload={name:$('productName').value.trim(),category:$('productCategory').value.trim(),price:priceUsd&&exchangeRate>0?priceUsd*exchangeRate:enteredSyp,price_usd:priceUsd,image_url:imageUrl,description:$('productDescription').value.trim()||null,is_active:$('productActive').checked};
-  if(!payload.name||!payload.category){alert('اسم المنتج والقسم مطلوبان.');b.disabled=false;b.textContent=id?'حفظ التعديلات':'حفظ المنتج';return;}
-  if(!Number.isFinite(payload.price)||payload.price<0||(payload.price_usd!==null&&(!Number.isFinite(payload.price_usd)||payload.price_usd<0))){alert('أدخل سعراً صحيحاً أو اترك الحقل فارغاً.');b.disabled=false;b.textContent=id?'حفظ التعديلات':'حفظ المنتج';return;}
+
+  try{
+    imageUrl=await uploadProductImageIfSelected();
+  }catch(err){
+    alert(String(err.message||err));
+    b.disabled=false;
+    b.textContent=id?'حفظ التعديلات':'حفظ المنتج';
+    return;
+  }
+
+  const usdRaw=$('productPriceUsd').value;
+  const priceUsd=usdRaw===''?null:Number(usdRaw);
+  const enteredSyp=priceRaw===''?0:Number(priceRaw);
+
+  const payload={
+    name:$('productName').value.trim(),
+    category:$('productCategory').value.trim(),
+    subcategory_id:$('productSubcategory').value?Number($('productSubcategory').value):null,
+    price:priceUsd&&exchangeRate>0?priceUsd*exchangeRate:enteredSyp,
+    price_usd:priceUsd,
+    image_url:imageUrl,
+    description:$('productDescription').value.trim()||null,
+    is_active:$('productActive').checked
+  };
+
+  if(!payload.name||!payload.category){
+    alert('اسم المنتج والقسم الرئيسي مطلوبان.');
+    b.disabled=false;
+    b.textContent=id?'حفظ التعديلات':'حفظ المنتج';
+    return;
+  }
+
+  if(!Number.isFinite(payload.price)||payload.price<0||
+     (payload.price_usd!==null&&(!Number.isFinite(payload.price_usd)||payload.price_usd<0))){
+    alert('أدخل سعراً صحيحاً أو اترك الحقل فارغاً.');
+    b.disabled=false;
+    b.textContent=id?'حفظ التعديلات':'حفظ المنتج';
+    return;
+  }
+
   try{
     const endpoint=SUPABASE_URL+'/rest/v1/products'+(id?'?id=eq.'+encodeURIComponent(id):'');
-    const r=await fetch(endpoint,{method:id?'PATCH':'POST',headers:{...authHeaders(),'Prefer':'return=representation'},body:JSON.stringify(payload)});
+    const r=await fetch(endpoint,{
+      method:id?'PATCH':'POST',
+      headers:{...authHeaders(),'Prefer':'return=representation'},
+      body:JSON.stringify(payload)
+    });
+
     if(!r.ok)throw new Error(await readError(r));
-    resetProductForm();await loadProducts();alert(id?'تم تعديل المنتج بنجاح.':'تمت إضافة المنتج بنجاح.');
-  }catch(err){alert('لم يتم حفظ المنتج: '+String(err.message||err).slice(0,260)+'\\nتأكد من أن أعمدة name وcategory وprice وimage_url وdescription وis_active موجودة في جدول products، ومن صلاحيات INSERT/UPDATE في Supabase.');}
-  finally{b.disabled=false;b.textContent=$('editProductId').value?'حفظ التعديلات':'حفظ المنتج';}
+
+    resetProductForm();
+    await loadProducts();
+    alert(id?'تم تعديل المنتج بنجاح.':'تمت إضافة المنتج بنجاح.');
+  }catch(err){
+    alert('لم يتم حفظ المنتج: '+String(err.message||err).slice(0,260));
+  }finally{
+    b.disabled=false;
+    b.textContent=$('editProductId').value?'حفظ التعديلات':'حفظ المنتج';
+  }
 });
+
 async function deleteProduct(id){
   if(!adminSession?.access_token){alert('سجّل الدخول أولاً.');return;}
-  const p=products.find(x=>Number(x.id)===Number(id));if(!confirm('هل تريد حذف المنتج "'+(p?.name||id)+'" نهائياً؟'))return;
+
+  const p=products.find(x=>Number(x.id)===Number(id));
+  if(!confirm('هل تريد حذف المنتج "'+(p?.name||id)+'" نهائياً؟'))return;
+
   try{
-    const r=await fetch(SUPABASE_URL+'/rest/v1/products?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{...authHeaders(),'Prefer':'return=minimal'}});
-    if(!r.ok)throw new Error(await readError(r));cart=cart.filter(x=>Number(x.id)!==Number(id));updateCart();await loadProducts();alert('تم حذف المنتج.');
-  }catch(err){alert('تعذّر حذف المنتج: '+String(err.message||err).slice(0,260)+'\\nتحقق من صلاحيات DELETE في Supabase.');}
+    const r=await fetch(SUPABASE_URL+'/rest/v1/products?id=eq.'+encodeURIComponent(id),{
+      method:'DELETE',
+      headers:{...authHeaders(),'Prefer':'return=minimal'}
+    });
+
+    if(!r.ok)throw new Error(await readError(r));
+
+    cart=cart.filter(x=>Number(x.id)!==Number(id));
+    updateCart();
+    await loadProducts();
+    alert('تم حذف المنتج.');
+  }catch(err){
+    alert('تعذّر حذف المنتج: '+String(err.message||err).slice(0,260));
+  }
 }
-updateCart();loadExchangeRate();loadProducts();
-</script>
-  <div id="imageViewer" class="image-viewer" onclick="closeImageViewer()">
-  <button type="button" aria-label="إغلاق" onclick="closeImageViewer()">✕</button>
-  <img id="fullProductImage" src="" alt="صورة المنتج الكاملة" onclick="event.stopPropagation()">
-</div><script>
+
+/* البحث والتنقل والصور */
+$('search').addEventListener('input',renderProducts);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeCart();
+    closeAdmin();
+    closeImageViewer();
+  }
+});
+
 function closeImageViewer(){
-  document.getElementById('imageViewer').classList.remove('open');
+  $('imageViewer').classList.remove('open');
   document.body.style.overflow='';
 }
 
-document.getElementById('products').addEventListener('click',function(e){
+$('products').addEventListener('click',function(e){
   const img=e.target.closest('.pic img');
   if(!img||!img.src)return;
   e.preventDefault();
-  document.getElementById('fullProductImage').src=img.src;
-  document.getElementById('imageViewer').classList.add('open');
+  $('fullProductImage').src=img.src;
+  $('imageViewer').classList.add('open');
   document.body.style.overflow='hidden';
 });
 
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape')closeImageViewer();
-});
+/* بدء تشغيل المتجر */
+updateCart();
+loadExchangeRate();
+loadProducts();
 </script>
 </body>
 </html>
